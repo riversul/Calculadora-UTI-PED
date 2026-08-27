@@ -1,43 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f766e">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0f766e"
+    >
+
     <title>Calculadora UTI PED</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
+
 <body>
+
 <header>
-       <div class="header-icon">+</div>
-    <div>
-        <h1>Calculadora UTI PED</h1>
-        <p>Calculadora de infusão contínua</p>
+
+    <div class="header-icon">
+        +
     </div>
+
+    <div>
+
+        <h1>
+            Calculadora UTI PED
+        </h1>
+
+        <p>
+            Calculadora de infusão contínua
+        </p>
+
+    </div>
+
 </header>
-    <nav class="tabs">
 
-    <button id="tabCalculadora" class="tab active" type="button">
 
+<!-- =========================
+     ABAS
+========================= -->
+
+<nav class="tabs">
+
+    <button
+        id="tabCalculadora"
+        class="tab active"
+        type="button"
+    >
         💉 Calculadora
-
     </button>
 
-    <button id="tabLeitos" class="tab" type="button">
-
+    <button
+        id="tabLeitos"
+        class="tab"
+        type="button"
+    >
         🛏️ Leitos
-
     </button>
 
 </nav>
-<main>
+
+
+<!-- =========================
+     PÁGINA CALCULADORA
+========================= -->
+
+<main id="paginaCalculadora">
+
+
+    <!-- DADOS DO PACIENTE -->
+
     <section class="card">
-        <h2>Dados do paciente</h2>
+
+        <h2>
+            Dados do paciente
+        </h2>
+
         <div class="field">
+
             <label for="peso">
                 Peso do paciente
             </label>
+
             <div class="input-unit">
+
                 <input
                     type="number"
                     id="peso"
@@ -46,68 +101,114 @@
                     min="0.1"
                     inputmode="decimal"
                 >
-                <span>kg</span>
+
+                <span>
+                    kg
+                </span>
+
             </div>
+
         </div>
+
     </section>
+
+
+    <!-- MEDICAMENTO -->
+
     <section class="card">
-        <h2>Medicamento</h2>
+
+        <h2>
+            Medicamento
+        </h2>
+
         <div class="field">
+
             <label for="medicamento">
                 Selecione o medicamento
             </label>
+
             <select id="medicamento">
+
                 <option value="">
                     Selecione...
                 </option>
+
                 <option value="noradrenalina">
                     Noradrenalina
                 </option>
+
                 <option value="adrenalina">
                     Adrenalina
                 </option>
+
                 <option value="dopamina">
                     Dopamina
                 </option>
+
                 <option value="dobutamina">
                     Dobutamina
                 </option>
+
                 <option value="fentanil">
                     Fentanil
                 </option>
+
                 <option value="midazolam">
                     Midazolam
                 </option>
+
                 <option value="dexmedetomidina">
                     Dexmedetomidina
                 </option>
+
                 <option value="milrinona">
                     Milrinona
                 </option>
+
                 <option value="rocuronio">
                     Rocurônio
                 </option>
+
             </select>
+
         </div>
+
+
         <div
             id="concentracaoBox"
             class="concentration-box hidden"
         >
+
             <span>
                 Apresentação cadastrada
             </span>
+
             <strong id="concentracao">
                 -
             </strong>
+
         </div>
+
     </section>
+
+
+    <!-- PREPARO -->
+
     <section class="card">
-        <h2>Preparo da solução</h2>
+
+        <h2>
+            Preparo da solução
+        </h2>
+
+
         <div class="field">
+
             <label for="volumeMedicamento">
                 Volume do medicamento
             </label>
+
             <div class="input-unit">
+
                 <input
                     type="number"
                     id="volumeMedicamento"
@@ -116,27 +217,45 @@
                     min="0"
                     inputmode="decimal"
                 >
-                <span>mL</span>
+
+                <span>
+                    mL
+                </span>
+
             </div>
+
         </div>
+
+
         <div class="field">
+
             <label for="diluente">
                 Diluente
             </label>
+
             <select id="diluente">
+
                 <option value="SF 0,9%">
                     SF 0,9%
                 </option>
+
                 <option value="SG 5%">
                     SG 5%
                 </option>
+
             </select>
+
         </div>
+
+
         <div class="field">
+
             <label for="volumeDiluente">
                 Volume do diluente
             </label>
+
             <div class="input-unit">
+
                 <input
                     type="number"
                     id="volumeDiluente"
@@ -145,33 +264,62 @@
                     min="0"
                     inputmode="decimal"
                 >
-                <span>mL</span>
+
+                <span>
+                    mL
+                </span>
+
             </div>
+
         </div>
+
+
         <div class="field">
+
             <label for="volumeFinal">
                 Volume final
             </label>
+
             <div class="input-unit">
+
                 <input
                     type="number"
                     id="volumeFinal"
                     readonly
                 >
-                <span>mL</span>
+
+                <span>
+                    mL
+                </span>
+
             </div>
+
             <small>
-                Calculado automaticamente: medicamento + diluente.
+                Calculado automaticamente:
+                medicamento + diluente.
             </small>
+
         </div>
+
     </section>
+
+
+    <!-- INFUSÃO -->
+
     <section class="card">
-        <h2>Infusão</h2>
+
+        <h2>
+            Infusão
+        </h2>
+
         <div class="field">
+
             <label for="vazao">
                 Vazão da bomba
             </label>
+
             <div class="input-unit">
+
                 <input
                     type="number"
                     id="vazao"
@@ -180,83 +328,358 @@
                     min="0"
                     inputmode="decimal"
                 >
-                <span>mL/h</span>
+
+                <span>
+                    mL/h
+                </span>
+
             </div>
+
         </div>
+
     </section>
+
+
+    <!-- CALCULAR -->
+
     <button
         id="calcular"
         class="calculate-button"
+        type="button"
     >
         CALCULAR DOSE
     </button>
+
+
+    <!-- ADICIONAR AO LEITO -->
+
+    <button
+        id="adicionarAoLeito"
+        class="calculate-button"
+        type="button"
+    >
+        🛏️ ADICIONAR AO LEITO
+    </button>
+
+
+    <!-- RESULTADO -->
+
     <section
         id="resultado"
         class="result-card hidden"
     >
+
         <div class="result-header">
             RESULTADO
         </div>
+
+
         <div class="result-content">
+
             <p id="resultadoMedicamento">
                 -
             </p>
+
+
             <div class="dose-result">
+
                 <strong id="dose">
                     -
                 </strong>
+
                 <span id="unidadeDose">
                     -
                 </span>
+
             </div>
+
+
             <div class="result-details">
+
                 <div>
+
                     <span>
                         Volume final
                     </span>
+
                     <strong id="concentracaoFinal">
                         -
                     </strong>
+
                 </div>
+
+
                 <div>
+
                     <span>
                         Vazão
                     </span>
+
                     <strong id="resultadoVazao">
                         -
                     </strong>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
+
+
+    <!-- ERRO -->
+
     <section
         id="erro"
         class="error-card hidden"
     >
+
         <strong>
             Atenção
         </strong>
+
         <p id="mensagemErro">
             Confira os dados informados.
         </p>
+
     </section>
+
+
+    <!-- AVISO -->
+
     <section class="warning">
+
         <strong>
             ⚠️ Conferência obrigatória
         </strong>
+
         <p>
-            Esta calculadora é uma ferramenta de auxílio ao cálculo.
-            Confira sempre medicamento, apresentação, concentração,
-            diluição, volume final, peso do paciente e vazão antes
-            da administração.
+            Esta calculadora é uma ferramenta
+            de auxílio ao cálculo.
+
+            Confira sempre medicamento,
+            apresentação, concentração,
+            diluição, volume final,
+            peso do paciente e vazão
+            antes da administração.
         </p>
+
     </section>
+
 </main>
+
+
+<!-- =========================
+     PÁGINA DOS LEITOS
+========================= -->
+
+<section
+    id="paginaLeitos"
+    class="leitos-page hidden"
+>
+
+
+    <!-- SELEÇÃO DO LEITO -->
+
+    <section class="card">
+
+        <h2>
+            🛏️ Leitos
+        </h2>
+
+        <p>
+            Selecione o leito para visualizar
+            as medicações cadastradas.
+        </p>
+
+
+        <div class="leitos-grid">
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="1"
+            >
+                Leito 1
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="2"
+            >
+                Leito 2
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="3"
+            >
+                Leito 3
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="4"
+            >
+                Leito 4
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="5"
+            >
+                Leito 5
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="6"
+            >
+                Leito 6
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="7"
+            >
+                Leito 7
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="8"
+            >
+                Leito 8
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="9"
+            >
+                Leito 9
+            </button>
+
+            <button
+                type="button"
+                class="leito-button"
+                data-leito="10"
+            >
+                Leito 10
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- PAINEL DO LEITO -->
+
+    <section
+        id="painelLeito"
+        class="card hidden"
+    >
+
+        <h2>
+            Leito
+            <span id="leitoAtual">
+                -
+            </span>
+        </h2>
+
+
+        <!-- PESO -->
+
+        <div class="field">
+
+            <label for="pesoLeito">
+                Peso do paciente
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="pesoLeito"
+                    placeholder="Ex.: 10"
+                    step="0.1"
+                    min="0.1"
+                    inputmode="decimal"
+                >
+
+                <span>
+                    kg
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SALVAR -->
+
+        <button
+            id="salvarLeito"
+            class="calculate-button"
+            type="button"
+        >
+            💾 SALVAR LEITO
+        </button>
+
+
+        <!-- MEDICAÇÕES -->
+
+        <h3>
+            Medicações em uso
+        </h3>
+
+        <div id="listaMedicacoes">
+
+            <p class="empty-medications">
+                Nenhuma medicação adicionada.
+            </p>
+
+        </div>
+
+
+        <!-- RESET -->
+
+        <button
+            id="resetLeito"
+            class="calculate-button"
+            type="button"
+        >
+            🗑️ RESETAR LEITO
+        </button>
+
+    </section>
+
+</section>
+
+
+<!-- =========================
+     RODAPÉ
+========================= -->
+
 <footer>
+
     <p>
-        Calculadora UTI PED — V1.32
+        Calculadora UTI PED — V1.35
     </p>
+
 </footer>
+
+
 <script src="script.js"></script>
+
 </body>
+
 </html>
