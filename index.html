@@ -8,195 +8,236 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="header-icon">+</div>
-        <div>
-            <h1>Calculadora UTI PED</h1>
-            <p>Calculadora de infusão contínua</p>
+<header>
+    <div class="header-icon">+</div>
+    <div>
+        <h1>Calculadora UTI PED</h1>
+        <p>Calculadora de infusão contínua</p>
+    </div>
+</header>
+<main>
+    <section class="card">
+        <h2>Dados do paciente</h2>
+        <div class="field">
+            <label for="peso">
+                Peso do paciente
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="peso"
+                    placeholder="Ex.: 10"
+                    step="0.1"
+                    min="0.1"
+                >
+                <span>kg</span>
+            </div>
         </div>
-    </header>
-    <main>
-        <section class="card">
-            <h2>Dados do paciente</h2>
-            <div class="field">
-                <label for="peso">Peso do paciente</label>
-                <div class="input-unit">
-                    <input
-                        type="number"
-                        id="peso"
-                        placeholder="Ex.: 10"
-                        step="0.1"
-                        min="0.1"
-                    >
-                    <span>kg</span>
-                </div>
+    </section>
+    <section class="card">
+        <h2>Medicamento</h2>
+        <div class="field">
+            <label for="medicamento">
+                Selecione o medicamento
+            </label>
+            <select id="medicamento">
+                <option value="">
+                    Selecione...
+                </option>
+                <option value="noradrenalina">
+                    Noradrenalina
+                </option>
+                <option value="adrenalina">
+                    Adrenalina
+                </option>
+                <option value="dopamina">
+                    Dopamina
+                </option>
+                <option value="dobutamina">
+                    Dobutamina
+                </option>
+                <option value="fentanil">
+                    Fentanil
+                </option>
+                <option value="midazolam">
+                    Midazolam
+                </option>
+                <option value="dexmedetomidina">
+                    Dexmedetomidina
+                </option>
+                <option value="milrinona">
+                    Milrinona
+                </option>
+                <option value="rocuronio">
+                    Rocurônio
+                </option>
+            </select>
+        </div>
+        <div
+            id="concentracaoBox"
+            class="concentration-box hidden"
+        >
+            <span>
+                Apresentação cadastrada
+            </span>
+            <strong id="concentracao">
+                -
+            </strong>
+        </div>
+    </section>
+    <section class="card">
+        <h2>Preparo da solução</h2>
+        <div class="field">
+            <label for="volumeMedicamento">
+                Volume do medicamento
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="volumeMedicamento"
+                    placeholder="Ex.: 7,2"
+                    step="0.01"
+                    min="0"
+                >
+                <span>mL</span>
             </div>
-        </section>
-        <section class="card">
-            <h2>Medicamento</h2>
-            <div class="field">
-                <label for="medicamento">Selecione o medicamento</label>
-                <select id="medicamento">
-                    <option value="">Selecione...</option>
-                    <option value="noradrenalina">
-                        Noradrenalina
-                    </option>
-                    <option value="adrenalina">
-                        Adrenalina
-                    </option>
-                    <option value="dopamina">
-                        Dopamina
-                    </option>
-                    <option value="dobutamina">
-                        Dobutamina
-                    </option>
-                    <option value="fentanil">
-                        Fentanil
-                    </option>
-                    <option value="midazolam">
-                        Midazolam
-                    </option>
-                    <option value="dexmedetomidina">
-                        Dexmedetomidina
-                    </option>
-                    <option value="milrinona">
-                        Milrinona
-                    </option>
-                    <option value="rocuronio">
-                        Rocurônio
-                    </option>
-                </select>
+        </div>
+        <div class="field">
+            <label for="diluente">
+                Diluente
+            </label>
+            <select id="diluente">
+                <option value="SF 0,9%">
+                    SF 0,9%
+                </option>
+                <option value="SG 5%">
+                    SG 5%
+                </option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="volumeDiluente">
+                Volume do diluente
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="volumeDiluente"
+                    placeholder="Ex.: 16,8"
+                    step="0.1"
+                    min="0"
+                >
+                <span>mL</span>
             </div>
-            <div id="concentracaoBox" class="concentration-box hidden">
-                <span>Apresentação cadastrada</span>
-                <strong id="concentracao">
+        </div>
+        <div class="field">
+            <label for="volumeFinal">
+                Volume final
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="volumeFinal"
+                    readonly
+                >
+                <span>mL</span>
+            </div>
+            <small>
+                Calculado automaticamente: medicamento + diluente.
+            </small>
+        </div>
+    </section>
+    <section class="card">
+        <h2>Infusão</h2>
+        <div class="field">
+            <label for="vazao">
+                Vazão da bomba
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="vazao"
+                    placeholder="Ex.: 1"
+                    step="0.01"
+                    min="0"
+                >
+                <span>mL/h</span>
+            </div>
+        </div>
+    </section>
+    <button
+        id="calcular"
+        class="calculate-button"
+    >
+        CALCULAR DOSE
+    </button>
+    <section
+        id="resultado"
+        class="result-card hidden"
+    >
+        <div class="result-header">
+            RESULTADO
+        </div>
+        <div class="result-content">
+            <p id="resultadoMedicamento">
+                -
+            </p>
+            <div class="dose-result">
+                <strong id="dose">
                     -
                 </strong>
-            </div>
-        </section>
-        <section class="card">
-            <h2>Preparo da solução</h2>
-            <div class="field">
-                <label for="volumeMedicamento">
-                    Volume do medicamento
-                </label>
-                <div class="input-unit">
-                    <input
-                        type="number"
-                        id="volumeMedicamento"
-                        placeholder="Ex.: 2"
-                        step="0.01"
-                        min="0"
-                    >
-                    <span>mL</span>
-                </div>
-            </div>
-            <div class="field">
-                <label for="diluente">
-                    Diluente
-                </label>
-                <select id="diluente">
-                    <option value="SF 0,9%">
-                        SF 0,9%
-                    </option>
-                    <option value="SG 5%">
-                        SG 5%
-                    </option>
-                </select>
-            </div>
-            <div class="field">
-                <label for="volumeFinal">
-                    Volume final da solução
-                </label>
-                <div class="input-unit">
-                    <input
-                        type="number"
-                        id="volumeFinal"
-                        placeholder="Ex.: 50"
-                        step="0.1"
-                        min="0.1"
-                    >
-                    <span>mL</span>
-                </div>
-                <small>
-                    Volume total após a diluição.
-                </small>
-            </div>
-        </section>
-        <section class="card">
-            <h2>Infusão</h2>
-            <div class="field">
-                <label for="vazao">
-                    Vazão da bomba
-                </label>
-                <div class="input-unit">
-                    <input
-                        type="number"
-                        id="vazao"
-                        placeholder="Ex.: 3"
-                        step="0.01"
-                        min="0"
-                    >
-                    <span>mL/h</span>
-                </div>
-            </div>
-        </section>
-        <button id="calcular" class="calculate-button">
-            CALCULAR DOSE
-        </button>
-        <section id="resultado" class="result-card hidden">
-            <div class="result-header">
-                <span>RESULTADO</span>
-            </div>
-            <div class="result-content">
-                <p id="resultadoMedicamento">
+                <span id="unidadeDose">
                     -
-                </p>
-                <div class="dose-result">
-                    <strong id="dose">
+                </span>
+            </div>
+            <div class="result-details">
+                <div>
+                    <span>
+                        Volume final
+                    </span>
+                    <strong id="concentracaoFinal">
                         -
                     </strong>
-                    <span id="unidadeDose">
-                        -
-                    </span>
                 </div>
-                <div class="result-details">
-                    <div>
-                        <span>Concentração final</span>
-                        <strong id="concentracaoFinal">
-                            -
-                        </strong>
-                    </div>
-                    <div>
-                        <span>Vazão</span>
-                        <strong id="resultadoVazao">
-                            -
-                        </strong>
-                    </div>
+                <div>
+                    <span>
+                        Vazão
+                    </span>
+                    <strong id="resultadoVazao">
+                        -
+                    </strong>
                 </div>
             </div>
-        </section>
-        <section id="erro" class="error-card hidden">
-            <strong>Atenção</strong>
-            <p id="mensagemErro">
-                Confira os dados informados.
-            </p>
-        </section>
-        <section class="warning">
-            <strong>⚠️ Conferência obrigatória</strong>
-            <p>
-                Esta calculadora é uma ferramenta de auxílio ao cálculo.
-                Confira sempre medicamento, apresentação, concentração,
-                diluição, volume final, peso do paciente e vazão antes
-                da administração.
-            </p>
-        </section>
-    </main>
-    <footer>
-        <p>
-            Calculadora UTI PED — V1.0
+        </div>
+    </section>
+    <section
+        id="erro"
+        class="error-card hidden"
+    >
+        <strong>
+            Atenção
+        </strong>
+        <p id="mensagemErro">
+            Confira os dados informados.
         </p>
-    </footer>
-    <script src="script.js"></script>
+    </section>
+    <section class="warning">
+        <strong>
+            ⚠️ Conferência obrigatória
+        </strong>
+        <p>
+            Esta calculadora é uma ferramenta de auxílio ao cálculo.
+            Confira sempre medicamento, apresentação, concentração,
+            diluição, volume final, peso do paciente e vazão antes
+            da administração.
+        </p>
+    </section>
+</main>
+<footer>
+    <p>
+        Calculadora UTI PED — V1.1
+    </p>
+</footer>
+<script src="script.js"></script>
 </body>
 </html>
