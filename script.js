@@ -1,79 +1,64 @@
-/*
-    CALCULADORA UTI PED
-    Versão 1.1
-    O volume final é calculado automaticamente:
-    VOLUME FINAL =
-    VOLUME DO MEDICAMENTO + VOLUME DO DILUENTE
-*/
 const medicamentos = {
     noradrenalina: {
         nome: "Noradrenalina",
-        concentracao: 1,
-        unidadeConcentracao: "mg/mL",
         concentracaoMcgMl: 1000,
+        apresentacao: "1 mg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
     },
     adrenalina: {
         nome: "Adrenalina",
-        concentracao: 1,
-        unidadeConcentracao: "mg/mL",
         concentracaoMcgMl: 1000,
+        apresentacao: "1 mg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
     },
     dopamina: {
         nome: "Dopamina",
-        concentracao: 5,
-        unidadeConcentracao: "mg/mL",
         concentracaoMcgMl: 5000,
-        unidadeDose: "mcgkgmin"
+        apresentacao: "5 mg/mL",
+        unidadeDose: "µg/kg/min",
+        tipoDose: "mcgkgmin"
     },
     dobutamina: {
         nome: "Dobutamina",
-        concentracao: 12.5,
-        unidadeConcentracao: "mg/mL",
         concentracaoMcgMl: 12500,
+        apresentacao: "12,5 mg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
     },
     fentanil: {
         nome: "Fentanil",
-        concentracao: 50,
-        unidadeConcentracao: "µg/mL",
         concentracaoMcgMl: 50,
+        apresentacao: "50 µg/mL",
         unidadeDose: "µg/kg/h",
         tipoDose: "mcgkgh"
     },
     midazolam: {
         nome: "Midazolam",
-        concentracao: 5,
-        unidadeConcentracao: "mg/mL",
         concentracaoMcgMl: 5000,
+        apresentacao: "5 mg/mL",
         unidadeDose: "mg/kg/h",
         tipoDose: "mgkgh"
     },
     dexmedetomidina: {
         nome: "Dexmedetomidina",
-        concentracao: 100,
-        unidadeConcentracao: "µg/mL",
         concentracaoMcgMl: 100,
+        apresentacao: "100 µg/mL",
         unidadeDose: "µg/kg/h",
         tipoDose: "mcgkgh"
     },
     milrinona: {
         nome: "Milrinona",
-        concentracao: 1,
-        unidadeConcentracao: "mg/mL",
         concentracaoMcgMl: 1000,
+        apresentacao: "1 mg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
     },
     rocuronio: {
         nome: "Rocurônio",
-        concentracao: 10,
-        unidadeConcentracao: "µg/mL",
         concentracaoMcgMl: 10,
+        apresentacao: "10 µg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
     }
@@ -85,13 +70,13 @@ const concentracaoBox =
     document.getElementById("concentracaoBox");
 const concentracao =
     document.getElementById("concentracao");
-const volumeMedicamentoInput =
+const volumeMedicamento =
     document.getElementById("volumeMedicamento");
-const volumeDiluenteInput =
+const volumeDiluente =
     document.getElementById("volumeDiluente");
-const volumeFinalInput =
+const volumeFinal =
     document.getElementById("volumeFinal");
-const calcularButton =
+const calcular =
     document.getElementById("calcular");
 const resultado =
     document.getElementById("resultado");
@@ -99,6 +84,7 @@ const erro =
     document.getElementById("erro");
 const mensagemErro =
     document.getElementById("mensagemErro");
+/* RESULTADO */
 const resultadoMedicamento =
     document.getElementById("resultadoMedicamento");
 const dose =
@@ -109,62 +95,81 @@ const concentracaoFinal =
     document.getElementById("concentracaoFinal");
 const resultadoVazao =
     document.getElementById("resultadoVazao");
-/* CONVERTER VÍRGULA EM PONTO */
-function numero(valor) {
-    if (typeof valor !== "string") {
-        return Number(valor);
+/* CONVERTER NÚMERO */
+function obterNumero(valor) {
+    if (valor === null || valor === "") {
+        return NaN;
     }
     return Number(
-        valor.replace(",", ".")
+        String(valor).replace(",", ".")
     );
 }
-/* CALCULAR VOLUME FINAL AUTOMATICAMENTE */
+/* VOLUME FINAL AUTOMÁTICO */
 function atualizarVolumeFinal() {
-    const volumeMedicamento =
-        numero(volumeMedicamentoInput.value);
-    const volumeDiluente =
-        numero(volumeDiluenteInput.value);
+    const medicamento =
+        obterNumero(volumeMedicamento.value);
+    const diluente =
+        obterNumero(volumeDiluente.value);
     if (
-        Number.isFinite(volumeMedicamento) &&
-        volumeMedicamento >= 0 &&
-        Number.isFinite(volumeDiluente) &&
-        volumeDiluente >= 0
+        Number.isFinite(medicamento) &&
+        Number.isFinite(diluente)
     ) {
-        const volumeFinal =
-            volumeMedicamento + volumeDiluente;
-        volumeFinalInput.value =
-            volumeFinal.toString();
+        const total =
+            medicamento + diluente;
+        volumeFinal.value =
+            total.toFixed(2).replace(".", ",");
     } else {
-        volumeFinalInput.value = "";
+        volumeFinal.value = "";
     }
 }
-/* ATUALIZAR VOLUME FINAL AO DIGITAR */
-volumeMedicamentoInput.addEventListener(
+/*
+    ATUALIZA ENQUANTO O USUÁRIO DIGITA
+*/
+volumeMedicamento.addEventListener(
     "input",
     atualizarVolumeFinal
 );
-volumeDiluenteInput.addEventListener(
+volumeDiluente.addEventListener(
     "input",
     atualizarVolumeFinal
 );
-/* MOSTRAR CONCENTRAÇÃO */
+/*
+    TAMBÉM ATUALIZA AO SAIR DO CAMPO
+*/
+volumeMedicamento.addEventListener(
+    "change",
+    atualizarVolumeFinal
+);
+volumeDiluente.addEventListener(
+    "change",
+    atualizarVolumeFinal
+);
+/* SELEÇÃO DO MEDICAMENTO */
 medicamentoSelect.addEventListener(
     "change",
     function() {
         const medicamento =
             medicamentos[this.value];
-        resultado.classList.add("hidden");
-        erro.classList.add("hidden");
+        resultado.classList.add(
+            "hidden"
+        );
+        erro.classList.add(
+            "hidden"
+        );
         if (!medicamento) {
-            concentracaoBox.classList.add("hidden");
+            concentracaoBox.classList.add(
+                "hidden"
+            );
             return;
         }
         concentracao.textContent =
-            `${medicamento.concentracao} ${medicamento.unidadeConcentracao}`;
-        concentracaoBox.classList.remove("hidden");
+            medicamento.apresentacao;
+        concentracaoBox.classList.remove(
+            "hidden"
+        );
     }
 );
-/* FORMATAR NÚMEROS */
+/* FORMATAÇÃO */
 function formatarNumero(valor) {
     if (!Number.isFinite(valor)) {
         return "-";
@@ -177,35 +182,42 @@ function formatarNumero(valor) {
         }
     );
 }
-/* MOSTRAR ERRO */
-function mostrarErro(mensagem) {
-    mensagemErro.textContent =
-        mensagem;
-    erro.classList.remove("hidden");
-    resultado.classList.add("hidden");
+/* ERRO */
+function mostrarErro(texto) {
+    mensagemErro.textContent = texto;
+    erro.classList.remove(
+        "hidden"
+    );
+    resultado.classList.add(
+        "hidden"
+    );
 }
-/* CALCULAR */
-calcularButton.addEventListener(
+/* CALCULAR DOSE */
+calcular.addEventListener(
     "click",
     function() {
-        erro.classList.add("hidden");
-        resultado.classList.add("hidden");
+        erro.classList.add(
+            "hidden"
+        );
+        resultado.classList.add(
+            "hidden"
+        );
         const medicamentoSelecionado =
             medicamentoSelect.value;
         const peso =
-            numero(
+            obterNumero(
                 document.getElementById("peso").value
             );
-        const volumeMedicamento =
-            numero(
-                volumeMedicamentoInput.value
+        const volumeDroga =
+            obterNumero(
+                volumeMedicamento.value
             );
-        const volumeDiluente =
-            numero(
-                volumeDiluenteInput.value
+        const volumeDiluenteValue =
+            obterNumero(
+                volumeDiluente.value
             );
         const vazao =
-            numero(
+            obterNumero(
                 document.getElementById("vazao").value
             );
         /* VALIDAÇÕES */
@@ -225,8 +237,8 @@ calcularButton.addEventListener(
             return;
         }
         if (
-            !Number.isFinite(volumeMedicamento) ||
-            volumeMedicamento <= 0
+            !Number.isFinite(volumeDroga) ||
+            volumeDroga <= 0
         ) {
             mostrarErro(
                 "Informe o volume do medicamento."
@@ -234,8 +246,8 @@ calcularButton.addEventListener(
             return;
         }
         if (
-            !Number.isFinite(volumeDiluente) ||
-            volumeDiluente < 0
+            !Number.isFinite(volumeDiluenteValue) ||
+            volumeDiluenteValue < 0
         ) {
             mostrarErro(
                 "Informe o volume do diluente."
@@ -251,46 +263,26 @@ calcularButton.addEventListener(
             );
             return;
         }
-        /* MEDICAMENTO */
         const medicamento =
             medicamentos[medicamentoSelecionado];
         /* VOLUME FINAL */
-        const volumeFinal =
-            volumeMedicamento +
-            volumeDiluente;
-        if (volumeFinal <= 0) {
-            mostrarErro(
-                "O volume final deve ser maior que zero."
-            );
-            return;
-        }
-        /*
-            QUANTIDADE TOTAL DO MEDICAMENTO
-            concentração do frasco ×
-            volume utilizado
-        */
+        const volumeTotal =
+            volumeDroga +
+            volumeDiluenteValue;
+        /* QUANTIDADE TOTAL */
         const quantidadeTotalMcg =
             medicamento.concentracaoMcgMl *
-            volumeMedicamento;
-        /*
-            CONCENTRAÇÃO FINAL
-            µg ÷ mL
-        */
-        const concentracaoFinalMcgMl =
+            volumeDroga;
+        /* CONCENTRAÇÃO FINAL */
+        const concentracaoMcgMl =
             quantidadeTotalMcg /
-            volumeFinal;
-        /*
-            QUANTIDADE ADMINISTRADA POR HORA
-            µg/mL × mL/h
-            = µg/h
-        */
+            volumeTotal;
+        /* QUANTIDADE POR HORA */
         const quantidadePorHoraMcg =
-            concentracaoFinalMcgMl *
+            concentracaoMcgMl *
             vazao;
         let doseCalculada;
-        /*
-            µg/kg/min
-        */
+        /* µg/kg/min */
         if (
             medicamento.tipoDose ===
             "mcgkgmin"
@@ -300,9 +292,7 @@ calcularButton.addEventListener(
                 peso /
                 60;
         }
-        /*
-            µg/kg/h
-        */
+        /* µg/kg/h */
         else if (
             medicamento.tipoDose ===
             "mcgkgh"
@@ -311,9 +301,7 @@ calcularButton.addEventListener(
                 quantidadePorHoraMcg /
                 peso;
         }
-        /*
-            mg/kg/h
-        */
+        /* mg/kg/h */
         else if (
             medicamento.tipoDose ===
             "mgkgh"
@@ -325,15 +313,17 @@ calcularButton.addEventListener(
                 quantidadePorHoraMg /
                 peso;
         }
-        /* RESULTADO */
+        /* MOSTRAR RESULTADO */
         resultadoMedicamento.textContent =
             medicamento.nome;
         dose.textContent =
-            formatarNumero(doseCalculada);
+            formatarNumero(
+                doseCalculada
+            );
         unidadeDose.textContent =
             medicamento.unidadeDose;
         concentracaoFinal.textContent =
-            `${formatarNumero(volumeFinal)} mL`;
+            `${formatarNumero(volumeTotal)} mL`;
         resultadoVazao.textContent =
             `${formatarNumero(vazao)} mL/h`;
         resultado.classList.remove(
@@ -345,3 +335,8 @@ calcularButton.addEventListener(
         });
     }
 );
+/*
+    GARANTE O VOLUME FINAL
+    AO CARREGAR A PÁGINA
+*/
+atualizarVolumeFinal();
