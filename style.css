@@ -265,3 +265,17 @@ footer {
         padding-left: calc((100% - 560px) / 2);
         padding-right: calc((100% - 560px) / 2);
     }
+/* VOLUME FINAL - DESTAQUE */
+
+#volumeFinal {
+    background: #e8f5f3;
+    color: #0f766e;
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+}
+
+#volumeFinal:focus {
+    border-color: #0f766e;
+    box-shadow: none;
+}
