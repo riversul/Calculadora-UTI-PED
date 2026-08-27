@@ -265,32 +265,3 @@ footer {
         padding-left: calc((100% - 560px) / 2);
         padding-right: calc((100% - 560px) / 2);
     }
-}/* ==============================
-   NAVEGAÇÃO V1.2 / V2.0
-   ============================== */
-
-.top-nav {
-    display: flex;
-    width: 100%;
-    background: white;
-    border-bottom: 1px solid #d9e0e3;
-}
-
-.top-nav a {
-    flex: 1;
-    text-align: center;
-    padding: 14px 5px;
-    text-decoration: none;
-    color: #607d8b;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.top-nav a.active {
-    color: #0f766e;
-    border-bottom: 3px solid #0f766e;
-}
-
-.top-nav a:active {
-    background: #f1f7f6;
-}
