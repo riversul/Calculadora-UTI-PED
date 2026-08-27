@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        name="theme-color"
+        content="#0f766e"
+    >
+    <title>Visita UTI PED</title>
+    <link
+        rel="stylesheet"
+        href="visita.css"
+    >
+</head>
+<body>
+<header>
+    <div class="header-icon">
+        🛏️
+    </div>
+    <div>
+        <h1>
+            Visita UTI PED
+        </h1>
+        <p>
+            Avaliação à beira-leito
+        </p>
+    </div>
+</header>
+<nav class="top-nav">
+    <a href="index.html">
+        💉 Calculadora
+    </a>
+    <a
+        href="visita.html"
+        class="active"
+    >
+        🛏️ Visita UTI
+    </a>
+</nav>
+<main>
+<section class="card">
+    <h2>
+        Selecionar leito
+    </h2>
+    <div class="leitos">
+        <button
+            class="leito"
+            data-leito="01"
+        >
+            LEITO 01
+        </button>
+        <button
+            class="leito"
+            data-leito="02"
+        >
+            LEITO 02
+        </button>
+        <button
+            class="leito"
+            data-leito="03"
+        >
+            LEITO 03
+        </button>
+        <button
+            class="leito"
+            data-leito="04"
+        >
+            LEITO 04
+        </button>
+        <button
+            class="leito"
+            data-leito="05"
+        >
+            LEITO 05
+        </button>
+        <button
+            class="leito"
+            data-leito="06"
+        >
+            LEITO 06
+        </button>
+        <button
+            class="leito"
+            data-leito="07"
+        >
+            LEITO 07
+        </button>
+        <button
+            class="leito"
+            data-leito="08"
+        >
+            LEITO 08
+        </button>
+    </div>
+</section>
+<div
+    id="ficha"
+    class="hidden"
+>
+<section class="card leito-titulo">
+    <div>
+        <span>
+            LEITO
+        </span>
+        <strong id="leitoSelecionado">
+            01
+        </strong>
+    </div>
+</section>
+<section class="card">
+    <h2>
+        ⚖️ Peso
+    </h2>
+    <div class="field">
+        <div class="input-unit">
+            <input
+                type="number"
+                id="peso"
+                placeholder="Ex.: 10"
+                step="0.1"
+                min="0.1"
+                inputmode="decimal"
+            >
+            <span>
+                kg
+            </span>
+        </div>
+    </div>
+</section>
+<section class="card">
+    <h2>
+        ❤️ Sinais vitais
+    </h2>
+    <div class="vital-grid">
+        <div class="field">
+            <label for="fc">
+                FC
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="fc"
+                    inputmode="decimal"
+                >
+                <span>
+                    bpm
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="pa">
+                PA
+            </label>
+            <div class="input-unit">
+                <input
+                    type="text"
+                    id="pa"
+                    placeholder="120/80"
+                    inputmode="decimal"
+                >
+                <span>
+                    mmHg
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="pam">
+                PAM
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="pam"
+                    inputmode="decimal"
+                >
+                <span>
+                    mmHg
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="fr">
+                FR
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="fr"
+                    inputmode="decimal"
+                >
+                <span>
+                    irpm
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="spo2">
+                SpO₂
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="spo2"
+                    inputmode="decimal"
+                >
+                <span>
+                    %
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="temperatura">
+                Temperatura
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="temperatura"
+                    step="0.1"
+                    inputmode="decimal"
+                >
+                <span>
+                    °C
+                </span>
+            </div>
+        </div>
+        <div class="field full">
+            <label for="diurese">
+                Diurese
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="diurese"
+                    step="0.1"
+                    inputmode="decimal"
+                >
+                <span>
+                    mL/kg/h
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="card">
+    <h2>
+        🫁 Suporte respiratório
+    </h2>
+    <div class="support-grid">
+        <button
+            class="support-button"
+            data-support="ar"
+        >
+            AR AMBIENTE
+        </button>
+        <button
+            class="support-button"
+            data-support="o2"
+        >
+            CATETER O₂
+        </button>
+        <button
+            class="support-button"
+            data-support="vni"
+        >
+            VNI
+        </button>
+        <button
+            class="support-button"
+            data-support="vm"
+        >
+            VENTILAÇÃO MECÂNICA
+        </button>
+    </div>
+    <div
+        id="o2Fields"
+        class="support-fields hidden"
+    >
+        <h3>
+            CATETER DE O₂
+        </h3>
+        <div class="field">
+            <label>
+                Fluxo
+            </label>
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="fluxoO2"
+                    step="0.1"
+                    inputmode="decimal"
+                >
+                <span>
+                    L/min
+                </span>
+            </div>
+        </div>
+    </div>
+    <div
+        id="vniFields"
+        class="support-fields hidden"
+    >
+        <h3>
+            VNI
+        </h3>
+        <div class="field">
+            <label>
+                Modo
+            </label>
+            <select id="modoVni">
+                <option value="">
+                    Selecione
+                </option>
+                <option>
+                    CPAP
+                </option>
+                <option>
+                    BiPAP
+                </option>
+                <option>
+                    PSV
+                </option>
+                <option>
+                    Outro
+                </option>
+            </select>
+        </div>
+        <div class="vital-grid">
+            <div class="field">
+                <label>
+                    FiO₂
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="fio2Vni"
+                        inputmode="decimal"
+                    >
+                    <span>%</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    IPAP
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="ipap"
+                        inputmode="decimal"
+                    >
+                    <span>cmH₂O</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    EPAP
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="epap"
+                        inputmode="decimal"
+                    >
+                    <span>cmH₂O</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div
+        id="vmFields"
+        class="support-fields hidden"
+    >
+        <h3>
+            VENTILAÇÃO MECÂNICA
+        </h3>
+        <div class="field">
+            <label>
+                Modo ventilatório
+            </label>
+            <select id="modoVm">
+                <option value="">
+                    Selecione
+                </option>
+                <option>
+                    VCV
+                </option>
+                <option>
+                    PCV
+                </option>
+                <option>
+                    PRVC
+                </option>
+                <option>
+                    PSV
+                </option>
+                <option>
+                    SIMV
+                </option>
+                <option>
+                    Outro
+                </option>
+            </select>
+        </div>
+        <div class="vital-grid">
+            <div class="field">
+                <label>
+                    FiO₂
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="fio2Vm"
+                        inputmode="decimal"
+                    >
+                    <span>%</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    PEEP
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="peep"
+                        inputmode="decimal"
+                    >
+                    <span>cmH₂O</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    FR programada
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="frProgramada"
+                        inputmode="decimal"
+                    >
+                    <span>irpm</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    FR total
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="frTotal"
+                        inputmode="decimal"
+                    >
+                    <span>irpm</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    VT
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="vt"
+                        inputmode="decimal"
+                    >
+                    <span>mL</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    VT/kg
+                </label>
+                <div class="input-unit calculated">
+                    <input
+                        type="text"
+                        id="vtKg"
+                        readonly
+                    >
+                    <span>
+                        mL/kg
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    Ppico
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="ppico"
+                        inputmode="decimal"
+                    >
+                    <span>cmH₂O</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    Pplatô
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="pplato"
+                        inputmode="decimal"
+                    >
+                    <span>cmH₂O</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    PS
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="ps"
+                        inputmode="decimal"
+                    >
+                    <span>cmH₂O</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    Ti
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="ti"
+                        step="0.1"
+                        inputmode="decimal"
+                    >
+                    <span>s</span>
+                </div>
+            </div>
+            <div class="field full">
+                <label>
+                    I:E
+                </label>
+                <input
+                    type="text"
+                    id="ie"
+                    placeholder="Ex.: 1:2"
+                    inputmode="decimal"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+<section class="card">
+    <h2>
+        💉 Medicações
+    </h2>
+    <div id="medicacoes">
+        <p class="empty">
+            Nenhuma medicação adicionada.
+        </p>
+    </div>
+    <button
+        type="button"
+        id="adicionarMedicacao"
+        class="add-button"
+    >
+        + ADICIONAR MEDICAÇÃO
+    </button>
+    <div
+        id="medicacaoForm"
+        class="medication-form hidden"
+    >
+        <div class="field">
+            <label>
+                Medicamento
+            </label>
+            <select id="medicamentoVisita">
+                <option value="">
+                    Selecione...
+                </option>
+                <option>
+                    Noradrenalina
+                </option>
+                <option>
+                    Adrenalina
+                </option>
+                <option>
+                    Dopamina
+                </option>
+                <option>
+                    Dobutamina
+                </option>
+                <option>
+                    Fentanil
+                </option>
+                <option>
+                    Midazolam
+                </option>
+                <option>
+                    Dexmedetomidina
+                </option>
+                <option>
+                    Milrinona
+                </option>
+                <option>
+                    Rocurônio
+                </option>
+            </select>
+        </div>
+        <div class="vital-grid">
+            <div class="field">
+                <label>
+                    Vazão
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="vazaoMedicacao"
+                        step="0.01"
+                        inputmode="decimal"
+                    >
+                    <span>
+                        mL/h
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label>
+                    Dose
+                </label>
+                <input
+                    type="text"
+                    id="doseMedicacao"
+                    placeholder="Ex.: 0,5 µg/kg/min"
+                >
+            </div>
+        </div>
+        <button
+            type="button"
+            id="confirmarMedicacao"
+            class="confirm-button"
+        >
+            ADICIONAR
+        </button>
+    </div>
+</section>
+<button
+    type="button"
+    id="salvar"
+    class="save-button"
+>
+    💾 SALVAR LEITO
+</button>
+</div>
+</main>
+<footer>
+    Visita UTI PED — V2.0
+</footer>
+<script src="visita.js"></script>
+</body>
+</html>
