@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -20,9 +21,12 @@
         rel="stylesheet"
         href="style.css"
     >
+
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -59,6 +63,7 @@
         💉 Calculadora
     </button>
 
+
     <button
         id="tabLeitos"
         class="tab"
@@ -70,20 +75,26 @@
 </nav>
 
 
-<!-- =========================
+
+<!-- =====================================================
      PÁGINA CALCULADORA
-========================= -->
+===================================================== -->
 
 <main id="paginaCalculadora">
 
 
-    <!-- DADOS DO PACIENTE -->
+    <!-- =========================
+         DADOS DO PACIENTE
+    ========================= -->
 
     <section class="card">
 
         <h2>
             Dados do paciente
         </h2>
+
+
+        <!-- PESO -->
 
         <div class="field">
 
@@ -109,9 +120,9 @@
             </div>
 
         </div>
-        </div>
 
-        <!-- LEITO OPCIONAL -->
+
+        <!-- LEITO -->
 
         <div class="field">
 
@@ -146,17 +157,17 @@
     </section>
 
 
-    <!-- MEDICAMENTO -->
-    </section>
 
-
-    <!-- MEDICAMENTO -->
+    <!-- =========================
+         MEDICAMENTO
+    ========================= -->
 
     <section class="card">
 
         <h2>
             Medicamento
         </h2>
+
 
         <div class="field">
 
@@ -229,7 +240,10 @@
     </section>
 
 
-    <!-- PREPARO -->
+
+    <!-- =========================
+         PREPARO
+    ========================= -->
 
     <section class="card">
 
@@ -237,6 +251,8 @@
             Preparo da solução
         </h2>
 
+
+        <!-- VOLUME DO MEDICAMENTO -->
 
         <div class="field">
 
@@ -264,6 +280,8 @@
         </div>
 
 
+        <!-- VOLUME DO DILUENTE -->
+
         <div class="field">
 
             <label for="volumeDiluente">
@@ -289,14 +307,20 @@
 
         </div>
 
+    </section>
 
-    <!-- INFUSÃO -->
+
+
+    <!-- =========================
+         INFUSÃO
+    ========================= -->
 
     <section class="card">
 
         <h2>
             Infusão
         </h2>
+
 
         <div class="field">
 
@@ -326,7 +350,10 @@
     </section>
 
 
-    <!-- CALCULAR -->
+
+    <!-- =========================
+         CALCULAR
+    ========================= -->
 
     <button
         id="calcular"
@@ -337,7 +364,10 @@
     </button>
 
 
-    <!-- ADICIONAR AO LEITO -->
+
+    <!-- =========================
+         ADICIONAR AO LEITO
+    ========================= -->
 
     <button
         id="adicionarAoLeito"
@@ -348,7 +378,10 @@
     </button>
 
 
-    <!-- RESULTADO -->
+
+    <!-- =========================
+         RESULTADO
+    ========================= -->
 
     <section
         id="resultado"
@@ -361,6 +394,7 @@
 
 
         <div class="result-content">
+
 
             <p id="resultadoMedicamento">
                 -
@@ -382,6 +416,9 @@
 
             <div class="result-details">
 
+
+                <!-- VOLUME FINAL -->
+
                 <div>
 
                     <span>
@@ -394,6 +431,8 @@
 
                 </div>
 
+
+                <!-- VAZÃO -->
 
                 <div>
 
@@ -414,7 +453,10 @@
     </section>
 
 
-    <!-- ERRO -->
+
+    <!-- =========================
+         ERRO
+    ========================= -->
 
     <section
         id="erro"
@@ -432,7 +474,10 @@
     </section>
 
 
-    <!-- AVISO -->
+
+    <!-- =========================
+         AVISO
+    ========================= -->
 
     <section class="warning">
 
@@ -441,6 +486,7 @@
         </strong>
 
         <p>
+
             Esta calculadora é uma ferramenta
             de auxílio ao cálculo.
 
@@ -449,16 +495,19 @@
             diluição, volume final,
             peso do paciente e vazão
             antes da administração.
+
         </p>
 
     </section>
 
+
 </main>
 
 
-<!-- =========================
+
+<!-- =====================================================
      PÁGINA DOS LEITOS
-========================= -->
+===================================================== -->
 
 <section
     id="paginaLeitos"
@@ -466,13 +515,16 @@
 >
 
 
-    <!-- SELEÇÃO DO LEITO -->
+    <!-- =========================
+         SELEÇÃO DO LEITO
+    ========================= -->
 
     <section class="card">
 
         <h2>
             🛏️ Leitos
         </h2>
+
 
         <p>
             Selecione o leito para visualizar
@@ -482,6 +534,7 @@
 
         <div class="leitos-grid">
 
+
             <button
                 type="button"
                 class="leito-button"
@@ -489,6 +542,7 @@
             >
                 Leito 1
             </button>
+
 
             <button
                 type="button"
@@ -498,6 +552,7 @@
                 Leito 2
             </button>
 
+
             <button
                 type="button"
                 class="leito-button"
@@ -505,6 +560,7 @@
             >
                 Leito 3
             </button>
+
 
             <button
                 type="button"
@@ -514,6 +570,7 @@
                 Leito 4
             </button>
 
+
             <button
                 type="button"
                 class="leito-button"
@@ -521,6 +578,7 @@
             >
                 Leito 5
             </button>
+
 
             <button
                 type="button"
@@ -530,6 +588,7 @@
                 Leito 6
             </button>
 
+
             <button
                 type="button"
                 class="leito-button"
@@ -537,6 +596,7 @@
             >
                 Leito 7
             </button>
+
 
             <button
                 type="button"
@@ -546,6 +606,7 @@
                 Leito 8
             </button>
 
+
             <button
                 type="button"
                 class="leito-button"
@@ -553,6 +614,7 @@
             >
                 Leito 9
             </button>
+
 
             <button
                 type="button"
@@ -562,24 +624,33 @@
                 Leito 10
             </button>
 
+
         </div>
 
     </section>
 
 
-    <!-- PAINEL DO LEITO -->
+
+    <!-- =========================
+         PAINEL DO LEITO
+    ========================= -->
 
     <section
         id="painelLeito"
         class="card hidden"
     >
 
+
         <h2>
+
             Leito
+
             <span id="leitoAtual">
                 -
             </span>
+
         </h2>
+
 
 
         <!-- PESO -->
@@ -610,6 +681,7 @@
         </div>
 
 
+
         <!-- SALVAR -->
 
         <button
@@ -621,11 +693,13 @@
         </button>
 
 
+
         <!-- MEDICAÇÕES -->
 
         <h3>
             Medicações em uso
         </h3>
+
 
         <div id="listaMedicacoes">
 
@@ -634,6 +708,7 @@
             </p>
 
         </div>
+
 
 
         <!-- RESET -->
@@ -646,9 +721,12 @@
             🗑️ RESETAR LEITO
         </button>
 
+
     </section>
 
+
 </section>
+
 
 
 <!-- =========================
@@ -658,13 +736,15 @@
 <footer>
 
     <p>
-        Calculadora UTI PED — V1.152
+        Calculadora UTI PED — V1.3
     </p>
 
 </footer>
 
 
+
 <script src="script.js"></script>
+
 
 </body>
 
