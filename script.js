@@ -967,93 +967,8 @@ if (
             }
         );
 
-    configurarBotoesMedicacao();
-
 }
 
-    leitos[leitoAtual]
-        .medicacoes
-        .forEach(
-            function(medicacao, index) {
-
-                const item =
-                    document.createElement("div");
-
-                item.className =
-                    "medication-card";
-
-
-                item.innerHTML = `
-
-                    <div class="medication-name">
-                        ${medicacao.nome}
-                    </div>
-
-                    <div class="medication-dose">
-                        ${formatarNumero(
-                            medicacao.dose
-                        )}
-                        ${medicacao.unidadeDose}
-                    </div>
-
-                    <div class="medication-info">
-
-                        Vazão:
-                        ${formatarNumero(
-                            medicacao.vazao
-                        )}
-                        mL/h
-
-                        <br>
-
-                        Preparo:
-                        ${formatarNumero(
-                            medicacao.volumeMedicamento
-                        )}
-                        mL +
-
-                        ${formatarNumero(
-                            medicacao.volumeDiluente
-                        )}
-                        mL
-
-                        <br>
-
-                        Volume final:
-                        ${formatarNumero(
-                            medicacao.volumeFinal
-                        )}
-                        mL
-
-                    </div>
-
-                    <div class="medication-actions">
-
-                        <button
-                            type="button"
-                            class="edit-medication"
-                            data-index="${index}"
-                        >
-                            EDITAR
-                        </button>
-
-                        <button
-                            type="button"
-                            class="delete-medication"
-                            data-index="${index}"
-                        >
-                            EXCLUIR
-                        </button>
-
-                    </div>
-
-                `;
-
-
-                listaMedicacoes.appendChild(item);
-
-            }
-        );
 /* =====================================================
    MOSTRAR SINAIS VITAIS DO LEITO
    ===================================================== */
@@ -1613,6 +1528,19 @@ if (salvarSinaisVitais) {
             ========================= */
 
             atualizarBotoesLeitos();
+
+
+            /* =========================
+               LIMPAR CAMPOS
+            ========================= */
+
+            leitoSinaisVitais.value = "";
+            fc.value = "";
+            fr.value = "";
+            pas.value = "";
+            pad.value = "";
+            pam.value = "";
+            sato2.value = "";
 
 
             alert(
