@@ -1356,7 +1356,136 @@ function atualizarBotoesLeitos() {
 
 }
 
+/* =====================================================
+   SINAIS VITAIS
+   ===================================================== */
 
+const leitoSinaisVitais =
+    elemento("leitoSinaisVitais");
+
+const fc =
+    elemento("fc");
+
+const fr =
+    elemento("fr");
+
+const pas =
+    elemento("pas");
+
+const pad =
+    elemento("pad");
+
+const pam =
+    elemento("pam");
+
+const sato2 =
+    elemento("sato2");
+
+const salvarSinaisVitais =
+    elemento("salvarSinaisVitais");
+
+
+/* =====================================================
+   SALVAR SINAIS VITAIS NO LEITO
+   ===================================================== */
+
+if (salvarSinaisVitais) {
+
+    salvarSinaisVitais.addEventListener(
+        "click",
+        function() {
+
+            const numeroLeito =
+                obterNumero(
+                    leitoSinaisVitais.value
+                );
+
+
+            /* =========================
+               VALIDAR LEITO
+            ========================= */
+
+            if (
+                !Number.isInteger(numeroLeito) ||
+                numeroLeito < 1 ||
+                numeroLeito > 10
+            ) {
+
+                alert(
+                    "Informe um número de leito entre 1 e 10."
+                );
+
+                leitoSinaisVitais.focus();
+
+                return;
+
+            }
+
+
+            const numero =
+                String(numeroLeito);
+
+
+            /* =========================
+               CRIAR LEITO SE NECESSÁRIO
+            ========================= */
+
+            if (!leitos[numero]) {
+
+                leitos[numero] = {
+
+                    peso: "",
+
+                    medicacoes: []
+
+                };
+
+            }
+
+
+            /* =========================
+               SALVAR SINAIS VITAIS
+            ========================= */
+
+            leitos[numero].sinaisVitais = {
+
+                fc: fc.value,
+
+                fr: fr.value,
+
+                pas: pas.value,
+
+                pad: pad.value,
+
+                pam: pam.value,
+
+                sato2: sato2.value
+
+            };
+
+
+            /* =========================
+               SALVAR NO NAVEGADOR
+            ========================= */
+
+            salvarDados();
+
+
+            /* =========================
+               ATUALIZAR INDICADOR
+            ========================= */
+
+            atualizarBotoesLeitos();
+
+
+            alert(
+                `Sinais vitais salvos no Leito ${numero}.`
+            );
+
+        }
+    );
+
+}
 /* =====================================================
    INICIALIZAÇÃO
    ===================================================== */
