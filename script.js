@@ -140,7 +140,6 @@ const adicionarAoLeito =
 const leitoSelecionado =
     elemento("leitoSelecionado");
 
-
 /* =====================================================
    ABAS
    ===================================================== */
@@ -151,12 +150,23 @@ const tabCalculadora =
 const tabLeitos =
     elemento("tabLeitos");
 
+const tabSinaisVitais =
+    elemento("tabSinaisVitais");
+
+
 const paginaCalculadora =
     elemento("paginaCalculadora");
 
 const paginaLeitos =
     elemento("paginaLeitos");
 
+const paginaSinaisVitais =
+    elemento("paginaSinaisVitais");
+
+
+/* =========================
+   CALCULADORA
+========================= */
 
 if (tabCalculadora) {
 
@@ -166,23 +176,26 @@ if (tabCalculadora) {
 
             tabCalculadora.classList.add("active");
 
-            if (tabLeitos) {
-                tabLeitos.classList.remove("active");
-            }
+            tabLeitos.classList.remove("active");
 
-            if (paginaCalculadora) {
-                paginaCalculadora.classList.remove("hidden");
-            }
+            tabSinaisVitais.classList.remove("active");
 
-            if (paginaLeitos) {
-                paginaLeitos.classList.add("hidden");
-            }
+
+            paginaCalculadora.classList.remove("hidden");
+
+            paginaLeitos.classList.add("hidden");
+
+            paginaSinaisVitais.classList.add("hidden");
 
         }
     );
 
 }
 
+
+/* =========================
+   LEITOS
+========================= */
 
 if (tabLeitos) {
 
@@ -192,17 +205,17 @@ if (tabLeitos) {
 
             tabLeitos.classList.add("active");
 
-            if (tabCalculadora) {
-                tabCalculadora.classList.remove("active");
-            }
+            tabCalculadora.classList.remove("active");
 
-            if (paginaLeitos) {
-                paginaLeitos.classList.remove("hidden");
-            }
+            tabSinaisVitais.classList.remove("active");
 
-            if (paginaCalculadora) {
-                paginaCalculadora.classList.add("hidden");
-            }
+
+            paginaLeitos.classList.remove("hidden");
+
+            paginaCalculadora.classList.add("hidden");
+
+            paginaSinaisVitais.classList.add("hidden");
+
 
             atualizarBotoesLeitos();
 
@@ -211,6 +224,34 @@ if (tabLeitos) {
 
 }
 
+
+/* =========================
+   SINAIS VITAIS
+========================= */
+
+if (tabSinaisVitais) {
+
+    tabSinaisVitais.addEventListener(
+        "click",
+        function() {
+
+            tabSinaisVitais.classList.add("active");
+
+            tabCalculadora.classList.remove("active");
+
+            tabLeitos.classList.remove("active");
+
+
+            paginaSinaisVitais.classList.remove("hidden");
+
+            paginaCalculadora.classList.add("hidden");
+
+            paginaLeitos.classList.add("hidden");
+
+        }
+    );
+
+}
 
 /* =====================================================
    CONVERSÃO
