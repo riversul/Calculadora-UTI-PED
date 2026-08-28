@@ -3,9 +3,9 @@
    ===================================================== */
 
 
-/* =========================
+/* =====================================================
    MEDICAMENTOS
-   ========================= */
+   ===================================================== */
 
 const medicamentos = {
 
@@ -84,9 +84,9 @@ const medicamentos = {
 };
 
 
-/* =========================
+/* =====================================================
    ELEMENTOS
-   ========================= */
+   ===================================================== */
 
 const medicamentoSelect =
     document.getElementById("medicamento");
@@ -102,9 +102,6 @@ const volumeMedicamento =
 
 const volumeDiluente =
     document.getElementById("volumeDiluente");
-
-const volumeFinal =
-    document.getElementById("volumeFinal");
 
 const calcular =
     document.getElementById("calcular");
@@ -136,18 +133,13 @@ const resultadoVazao =
 const adicionarAoLeito =
     document.getElementById("adicionarAoLeito");
 
-
-/* =========================
-   CAMPO DO LEITO
-   ========================= */
-
 const leitoSelecionado =
     document.getElementById("leitoSelecionado");
 
 
-/* =========================
+/* =====================================================
    ABAS
-   ========================= */
+   ===================================================== */
 
 const tabCalculadora =
     document.getElementById("tabCalculadora");
@@ -196,9 +188,9 @@ tabLeitos.addEventListener(
 );
 
 
-/* =========================
-   CONVERSÃO
-   ========================= */
+/* =====================================================
+   CONVERSÃO DE NÚMEROS
+   ===================================================== */
 
 function obterNumero(valor) {
 
@@ -210,126 +202,21 @@ function obterNumero(valor) {
     }
 
     return Number(
-        String(valor)
-            .replace(",", ".")
+        String(valor).replace(",", ".")
     );
 
 }
 
 
-/* =========================
-   VOLUME FINAL
-   ========================= */
-
-function atualizarVolumeFinal() {
-
-    const medicamento =
-        obterNumero(
-            volumeMedicamento.value
-        );
-
-    const diluente =
-        obterNumero(
-            volumeDiluente.value
-        );
-
-
-    if (
-        Number.isFinite(medicamento) &&
-        Number.isFinite(diluente)
-    ) {
-
-        const total =
-            medicamento + diluente;
-
-
-        volumeFinal.value =
-            total
-                .toFixed(2)
-                .replace(".", ",");
-
-    } else {
-
-        volumeFinal.value = "";
-
-    }
-
-}
-
-
-volumeMedicamento.addEventListener(
-    "input",
-    atualizarVolumeFinal
-);
-
-volumeDiluente.addEventListener(
-    "input",
-    atualizarVolumeFinal
-);
-
-volumeMedicamento.addEventListener(
-    "change",
-    atualizarVolumeFinal
-);
-
-volumeDiluente.addEventListener(
-    "change",
-    atualizarVolumeFinal
-);
-
-
-/* =========================
-   MEDICAMENTO SELECIONADO
-   ========================= */
-
-medicamentoSelect.addEventListener(
-    "change",
-    function() {
-
-        const medicamento =
-            medicamentos[this.value];
-
-
-        resultado.classList.add("hidden");
-
-        erro.classList.add("hidden");
-
-
-        if (!medicamento) {
-
-            concentracaoBox.classList.add(
-                "hidden"
-            );
-
-            return;
-
-        }
-
-
-        concentracao.textContent =
-            medicamento.apresentacao;
-
-
-        concentracaoBox.classList.remove(
-            "hidden"
-        );
-
-    }
-);
-
-
-/* =========================
+/* =====================================================
    FORMATAÇÃO
-   ========================= */
+   ===================================================== */
 
 function formatarNumero(valor) {
 
     if (!Number.isFinite(valor)) {
-
         return "-";
-
     }
-
 
     return valor.toLocaleString(
         "pt-BR",
@@ -342,48 +229,73 @@ function formatarNumero(valor) {
 }
 
 
-/* =========================
+/* =====================================================
    ERRO
-   ========================= */
+   ===================================================== */
 
 function mostrarErro(texto) {
 
-    mensagemErro.textContent =
-        texto;
+    mensagemErro.textContent = texto;
 
-    erro.classList.remove(
-        "hidden"
-    );
+    erro.classList.remove("hidden");
 
-    resultado.classList.add(
-        "hidden"
-    );
+    resultado.classList.add("hidden");
 
 }
 
 
-/* =========================
+/* =====================================================
+   MEDICAMENTO SELECIONADO
+   ===================================================== */
+
+medicamentoSelect.addEventListener(
+    "change",
+    function() {
+
+        const medicamento =
+            medicamentos[this.value];
+
+        resultado.classList.add("hidden");
+
+        erro.classList.add("hidden");
+
+
+        if (!medicamento) {
+
+            concentracaoBox.classList.add("hidden");
+
+            return;
+
+        }
+
+
+        concentracao.textContent =
+            medicamento.apresentacao;
+
+        concentracaoBox.classList.remove("hidden");
+
+    }
+);
+
+
+/* =====================================================
    ÚLTIMO RESULTADO
-   ========================= */
+   ===================================================== */
 
 let ultimoResultado = null;
 
 
-/* =========================
+/* =====================================================
    CALCULAR DOSE
-   ========================= */
+   ===================================================== */
 
 calcular.addEventListener(
     "click",
     function() {
 
-        erro.classList.add(
-            "hidden"
-        );
+        erro.classList.add("hidden");
 
-        resultado.classList.add(
-            "hidden"
-        );
+        resultado.classList.add("hidden");
 
 
         const medicamentoSelecionado =
@@ -392,9 +304,7 @@ calcular.addEventListener(
 
         const peso =
             obterNumero(
-                document.getElementById(
-                    "peso"
-                ).value
+                document.getElementById("peso").value
             );
 
 
@@ -412,13 +322,13 @@ calcular.addEventListener(
 
         const vazao =
             obterNumero(
-                document.getElementById(
-                    "vazao"
-                ).value
+                document.getElementById("vazao").value
             );
 
 
-        /* VALIDAÇÕES */
+        /* =================================================
+           VALIDAÇÕES
+        ================================================= */
 
         if (!medicamentoSelecionado) {
 
@@ -460,9 +370,7 @@ calcular.addEventListener(
 
 
         if (
-            !Number.isFinite(
-                volumeDiluenteValue
-            ) ||
+            !Number.isFinite(volumeDiluenteValue) ||
             volumeDiluenteValue < 0
         ) {
 
@@ -490,33 +398,53 @@ calcular.addEventListener(
 
 
         const medicamento =
-            medicamentos[
-                medicamentoSelecionado
-            ];
+            medicamentos[medicamentoSelecionado];
 
 
-        /* VOLUME FINAL */
+        /* =================================================
+           VOLUME FINAL
+           
+           O campo não aparece mais na tela,
+           mas continua sendo calculado.
+        ================================================= */
 
         const volumeTotal =
             volumeDroga +
             volumeDiluenteValue;
 
 
-        /* QUANTIDADE TOTAL */
+        if (volumeTotal <= 0) {
+
+            mostrarErro(
+                "O volume final deve ser maior que zero."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           QUANTIDADE TOTAL
+        ================================================= */
 
         const quantidadeTotalMcg =
             medicamento.concentracaoMcgMl *
             volumeDroga;
 
 
-        /* CONCENTRAÇÃO FINAL */
+        /* =================================================
+           CONCENTRAÇÃO FINAL
+        ================================================= */
 
         const concentracaoMcgMl =
             quantidadeTotalMcg /
             volumeTotal;
 
 
-        /* QUANTIDADE POR HORA */
+        /* =================================================
+           QUANTIDADE POR HORA
+        ================================================= */
 
         const quantidadePorHoraMcg =
             concentracaoMcgMl *
@@ -526,11 +454,12 @@ calcular.addEventListener(
         let doseCalculada;
 
 
-        /* µg/kg/min */
+        /* =================================================
+           µg/kg/min
+        ================================================= */
 
         if (
-            medicamento.tipoDose ===
-            "mcgkgmin"
+            medicamento.tipoDose === "mcgkgmin"
         ) {
 
             doseCalculada =
@@ -541,11 +470,12 @@ calcular.addEventListener(
         }
 
 
-        /* µg/kg/h */
+        /* =================================================
+           µg/kg/h
+        ================================================= */
 
         else if (
-            medicamento.tipoDose ===
-            "mcgkgh"
+            medicamento.tipoDose === "mcgkgh"
         ) {
 
             doseCalculada =
@@ -555,17 +485,17 @@ calcular.addEventListener(
         }
 
 
-        /* mg/kg/h */
+        /* =================================================
+           mg/kg/h
+        ================================================= */
 
         else if (
-            medicamento.tipoDose ===
-            "mgkgh"
+            medicamento.tipoDose === "mgkgh"
         ) {
 
             const quantidadePorHoraMg =
                 quantidadePorHoraMcg /
                 1000;
-
 
             doseCalculada =
                 quantidadePorHoraMg /
@@ -574,7 +504,9 @@ calcular.addEventListener(
         }
 
 
-        /* GUARDAR RESULTADO */
+        /* =================================================
+           GUARDAR RESULTADO
+        ================================================= */
 
         ultimoResultado = {
 
@@ -605,18 +537,15 @@ calcular.addEventListener(
             volumeFinal:
                 volumeTotal,
 
-            diluente:
-                document.getElementById(
-                    "diluente"
-                ).value,
-
             peso:
                 peso
 
         };
 
 
-        /* MOSTRAR RESULTADO */
+        /* =================================================
+           MOSTRAR RESULTADO
+        ================================================= */
 
         resultadoMedicamento.textContent =
             medicamento.nome;
@@ -640,9 +569,7 @@ calcular.addEventListener(
             `${formatarNumero(vazao)} mL/h`;
 
 
-        resultado.classList.remove(
-            "hidden"
-        );
+        resultado.classList.remove("hidden");
 
 
         resultado.scrollIntoView({
@@ -658,11 +585,6 @@ calcular.addEventListener(
    SISTEMA DE LEITOS
    ===================================================== */
 
-
-/* =========================
-   DADOS DOS LEITOS
-   ========================= */
-
 let leitos = JSON.parse(
     localStorage.getItem(
         "calculadoraUTIPED_leitos"
@@ -670,52 +592,34 @@ let leitos = JSON.parse(
 ) || {};
 
 
+const painelLeito =
+    document.getElementById("painelLeito");
+
+const leitoAtualElemento =
+    document.getElementById("leitoAtual");
+
+const pesoLeito =
+    document.getElementById("pesoLeito");
+
+const listaMedicacoes =
+    document.getElementById("listaMedicacoes");
+
+const botoesLeito =
+    document.querySelectorAll(".leito-button");
+
+const salvarLeito =
+    document.getElementById("salvarLeito");
+
+const resetLeito =
+    document.getElementById("resetLeito");
+
+
 let leitoAtual = null;
 
 
-/* =========================
-   ELEMENTOS DOS LEITOS
-   ========================= */
-
-const painelLeito =
-    document.getElementById(
-        "painelLeito"
-    );
-
-const leitoAtualElemento =
-    document.getElementById(
-        "leitoAtual"
-    );
-
-const pesoLeito =
-    document.getElementById(
-        "pesoLeito"
-    );
-
-const listaMedicacoes =
-    document.getElementById(
-        "listaMedicacoes"
-    );
-
-const botoesLeito =
-    document.querySelectorAll(
-        ".leito-button"
-    );
-
-const salvarLeito =
-    document.getElementById(
-        "salvarLeito"
-    );
-
-const resetLeito =
-    document.getElementById(
-        "resetLeito"
-    );
-
-
-/* =========================
-   SALVAR NO NAVEGADOR
-   ========================= */
+/* =====================================================
+   SALVAR DADOS
+   ===================================================== */
 
 function salvarDados() {
 
@@ -728,7 +632,7 @@ function salvarDados() {
 
 
 /* =====================================================
-   SELECIONAR LEITO NA ABA LEITOS
+   SELECIONAR LEITO
    ===================================================== */
 
 botoesLeito.forEach(
@@ -814,9 +718,7 @@ function mostrarMedicacoes() {
         !Array.isArray(
             leitos[leitoAtual].medicacoes
         ) ||
-        leitos[leitoAtual]
-            .medicacoes
-            .length === 0
+        leitos[leitoAtual].medicacoes.length === 0
     ) {
 
         listaMedicacoes.innerHTML = `
@@ -836,9 +738,7 @@ function mostrarMedicacoes() {
             function(medicacao, index) {
 
                 const item =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 item.className =
@@ -886,10 +786,6 @@ function mostrarMedicacoes() {
                         )}
                         mL
 
-                        <br>
-
-                        ${medicacao.diluente}
-
                     </div>
 
 
@@ -902,6 +798,7 @@ function mostrarMedicacoes() {
                         >
                             EDITAR
                         </button>
+
 
                         <button
                             type="button"
@@ -916,9 +813,7 @@ function mostrarMedicacoes() {
                 `;
 
 
-                listaMedicacoes.appendChild(
-                    item
-                );
+                listaMedicacoes.appendChild(item);
 
             }
         );
@@ -937,9 +832,7 @@ function configurarBotoesMedicacao() {
 
 
     document
-        .querySelectorAll(
-            ".delete-medication"
-        )
+        .querySelectorAll(".delete-medication")
         .forEach(
             function(botao) {
 
@@ -961,11 +854,10 @@ function configurarBotoesMedicacao() {
 
                             leitos[
                                 leitoAtual
-                            ].medicacoes
-                                .splice(
-                                    index,
-                                    1
-                                );
+                            ].medicacoes.splice(
+                                index,
+                                1
+                            );
 
 
                             salvarDados();
@@ -984,9 +876,7 @@ function configurarBotoesMedicacao() {
 
 
     document
-        .querySelectorAll(
-            ".edit-medication"
-        )
+        .querySelectorAll(".edit-medication")
         .forEach(
             function(botao) {
 
@@ -1000,9 +890,7 @@ function configurarBotoesMedicacao() {
                             );
 
 
-                        editarMedicacao(
-                            index
-                        );
+                        editarMedicacao(index);
 
                     }
                 );
@@ -1025,24 +913,17 @@ function editarMedicacao(index) {
         ].medicacoes[index];
 
 
+    if (!medicacao) {
+        return;
+    }
+
+
     medicamentoSelect.value =
         medicacao.medicamentoKey;
 
 
-    document.getElementById(
-        "peso"
-    ).value =
+    document.getElementById("peso").value =
         medicacao.peso;
-
-
-    /* COLOCAR O LEITO NA CALCULADORA */
-
-    if (leitoSelecionado) {
-
-        leitoSelecionado.value =
-            leitoAtual;
-
-    }
 
 
     volumeMedicamento.value =
@@ -1053,19 +934,8 @@ function editarMedicacao(index) {
         medicacao.volumeDiluente;
 
 
-    document.getElementById(
-        "vazao"
-    ).value =
+    document.getElementById("vazao").value =
         medicacao.vazao;
-
-
-    document.getElementById(
-        "diluente"
-    ).value =
-        medicacao.diluente;
-
-
-    atualizarVolumeFinal();
 
 
     medicamentoSelect.dispatchEvent(
@@ -1073,7 +943,12 @@ function editarMedicacao(index) {
     );
 
 
-    /* REMOVER O ANTIGO */
+    /*
+       Remover a versão antiga.
+       Ao clicar em CALCULAR e depois
+       ADICIONAR AO LEITO, será criada
+       a nova versão.
+    */
 
     leitos[
         leitoAtual
@@ -1085,8 +960,6 @@ function editarMedicacao(index) {
 
     salvarDados();
 
-
-    /* VOLTAR PARA CALCULADORA */
 
     tabCalculadora.click();
 
@@ -1107,10 +980,6 @@ adicionarAoLeito.addEventListener(
     "click",
     function() {
 
-
-        /* PRIMEIRO:
-           verificar se existe cálculo */
-
         if (!ultimoResultado) {
 
             alert(
@@ -1122,32 +991,16 @@ adicionarAoLeito.addEventListener(
         }
 
 
-        /* PEGAR O LEITO DIGITADO NA CALCULADORA */
-
-        const valorLeito =
-            leitoSelecionado
-                ? leitoSelecionado.value.trim()
-                : "";
-
-
-        /* LEITO NÃO INFORMADO */
-
-        if (valorLeito === "") {
-
-            alert(
-                "Informe o número do leito entre 1 e 10."
-            );
-
-            return;
-
-        }
-
+        /*
+           Agora o leito vem diretamente
+           da caixa da página inicial.
+        */
 
         const numeroLeito =
-            Number(valorLeito);
+            obterNumero(
+                leitoSelecionado.value
+            );
 
-
-        /* VALIDAR LEITO */
 
         if (
             !Number.isInteger(numeroLeito) ||
@@ -1156,25 +1009,27 @@ adicionarAoLeito.addEventListener(
         ) {
 
             alert(
-                "Leito inválido. Digite um número de 1 a 10."
+                "Informe um número de leito entre 1 e 10."
             );
+
+            leitoSelecionado.focus();
 
             return;
 
         }
 
 
-        /* TRANSFORMAR EM STRING */
-
-        leitoAtual =
+        const numero =
             String(numeroLeito);
 
 
-        /* CRIAR LEITO SE NÃO EXISTIR */
+        /*
+           Criar leito caso ainda não exista.
+        */
 
-        if (!leitos[leitoAtual]) {
+        if (!leitos[numero]) {
 
-            leitos[leitoAtual] = {
+            leitos[numero] = {
 
                 peso: "",
 
@@ -1185,57 +1040,37 @@ adicionarAoLeito.addEventListener(
         }
 
 
-        /* SALVAR PESO */
+        /*
+           Salvar o peso.
+        */
 
-        leitos[leitoAtual].peso =
+        leitos[numero].peso =
             ultimoResultado.peso;
 
 
-        /* GARANTIR ARRAY */
+        /*
+           Adicionar medicação.
+        */
 
-        if (
-            !Array.isArray(
-                leitos[leitoAtual].medicacoes
-            )
-        ) {
-
-            leitos[leitoAtual].medicacoes =
-                [];
-
-        }
-
-
-        /* ADICIONAR MEDICAÇÃO */
-
-        leitos[leitoAtual]
+        leitos[numero]
             .medicacoes
             .push(
                 ultimoResultado
             );
 
 
-        /* SALVAR */
+        /*
+           Salvar no navegador.
+        */
 
         salvarDados();
 
 
-        /* ATUALIZAR INDICADORES */
-
         atualizarBotoesLeitos();
 
 
-        /* MANTER O NÚMERO DO LEITO NA TELA */
-
-        if (leitoSelecionado) {
-
-            leitoSelecionado.value =
-                leitoAtual;
-
-        }
-
-
         alert(
-            `Medicação adicionada ao Leito ${leitoAtual}.`
+            `Medicação adicionada ao Leito ${numero}.`
         );
 
     }
@@ -1243,7 +1078,7 @@ adicionarAoLeito.addEventListener(
 
 
 /* =====================================================
-   SALVAR PESO DO LEITO
+   SALVAR LEITO
    ===================================================== */
 
 salvarLeito.addEventListener(
@@ -1251,13 +1086,7 @@ salvarLeito.addEventListener(
     function() {
 
         if (!leitoAtual) {
-
-            alert(
-                "Selecione um leito."
-            );
-
             return;
-
         }
 
 
@@ -1280,7 +1109,7 @@ salvarLeito.addEventListener(
 
 
 /* =====================================================
-   RESET LEITO
+   RESETAR LEITO
    ===================================================== */
 
 resetLeito.addEventListener(
@@ -1288,13 +1117,7 @@ resetLeito.addEventListener(
     function() {
 
         if (!leitoAtual) {
-
-            alert(
-                "Selecione um leito."
-            );
-
             return;
-
         }
 
 
@@ -1305,9 +1128,7 @@ resetLeito.addEventListener(
 
 
         if (!confirmar) {
-
             return;
-
         }
 
 
@@ -1356,7 +1177,9 @@ function atualizarBotoesLeitos() {
             const possuiDados =
                 leitos[numero] &&
                 (
-                    leitos[numero].peso ||
+                    Boolean(
+                        leitos[numero].peso
+                    ) ||
                     (
                         Array.isArray(
                             leitos[numero].medicacoes
@@ -1370,7 +1193,7 @@ function atualizarBotoesLeitos() {
 
             botao.classList.toggle(
                 "has-data",
-                Boolean(possuiDados)
+                possuiDados
             );
 
         }
@@ -1382,7 +1205,5 @@ function atualizarBotoesLeitos() {
 /* =====================================================
    INICIALIZAÇÃO
    ===================================================== */
-
-atualizarVolumeFinal();
 
 atualizarBotoesLeitos();
