@@ -138,6 +138,14 @@ const adicionarAoLeito =
 
 
 /* =========================
+   CAMPO DO LEITO
+   ========================= */
+
+const leitoSelecionado =
+    document.getElementById("leitoSelecionado");
+
+
+/* =========================
    ABAS
    ========================= */
 
@@ -651,17 +659,9 @@ calcular.addEventListener(
    ===================================================== */
 
 
-/*
-   Estrutura:
-
-   leitos = {
-       "01": {
-           peso: 10,
-           medicacoes: [...]
-       }
-   }
-*/
-
+/* =========================
+   DADOS DOS LEITOS
+   ========================= */
 
 let leitos = JSON.parse(
     localStorage.getItem(
@@ -673,41 +673,39 @@ let leitos = JSON.parse(
 let leitoAtual = null;
 
 
+/* =========================
+   ELEMENTOS DOS LEITOS
+   ========================= */
+
 const painelLeito =
     document.getElementById(
         "painelLeito"
     );
-
 
 const leitoAtualElemento =
     document.getElementById(
         "leitoAtual"
     );
 
-
 const pesoLeito =
     document.getElementById(
         "pesoLeito"
     );
-
 
 const listaMedicacoes =
     document.getElementById(
         "listaMedicacoes"
     );
 
-
 const botoesLeito =
     document.querySelectorAll(
         ".leito-button"
     );
 
-
 const salvarLeito =
     document.getElementById(
         "salvarLeito"
     );
-
 
 const resetLeito =
     document.getElementById(
@@ -729,9 +727,9 @@ function salvarDados() {
 }
 
 
-/* =========================
-   SELECIONAR LEITO
-   ========================= */
+/* =====================================================
+   SELECIONAR LEITO NA ABA LEITOS
+   ===================================================== */
 
 botoesLeito.forEach(
     function(botao) {
@@ -753,12 +751,12 @@ botoesLeito.forEach(
 
 function selecionarLeito(numero) {
 
-    leitoAtual = numero;
+    leitoAtual = String(numero);
 
 
-    if (!leitos[numero]) {
+    if (!leitos[leitoAtual]) {
 
-        leitos[numero] = {
+        leitos[leitoAtual] = {
 
             peso: "",
 
@@ -766,15 +764,17 @@ function selecionarLeito(numero) {
 
         };
 
+        salvarDados();
+
     }
 
 
     leitoAtualElemento.textContent =
-        numero;
+        leitoAtual;
 
 
     pesoLeito.value =
-        leitos[numero].peso || "";
+        leitos[leitoAtual].peso || "";
 
 
     painelLeito.classList.remove(
@@ -787,7 +787,7 @@ function selecionarLeito(numero) {
 
             botao.classList.toggle(
                 "active",
-                botao.dataset.leito === numero
+                botao.dataset.leito === leitoAtual
             );
 
         }
@@ -799,9 +799,9 @@ function selecionarLeito(numero) {
 }
 
 
-/* =========================
+/* =====================================================
    MOSTRAR MEDICAÇÕES
-   ========================= */
+   ===================================================== */
 
 function mostrarMedicacoes() {
 
@@ -811,8 +811,12 @@ function mostrarMedicacoes() {
     if (
         !leitoAtual ||
         !leitos[leitoAtual] ||
+        !Array.isArray(
+            leitos[leitoAtual].medicacoes
+        ) ||
         leitos[leitoAtual]
-            .medicacoes.length === 0
+            .medicacoes
+            .length === 0
     ) {
 
         listaMedicacoes.innerHTML = `
@@ -868,7 +872,7 @@ function mostrarMedicacoes() {
                         ${formatarNumero(
                             medicacao.volumeMedicamento
                         )}
-                        mL + 
+                        mL +
                         ${formatarNumero(
                             medicacao.volumeDiluente
                         )}
@@ -925,11 +929,12 @@ function mostrarMedicacoes() {
 }
 
 
-/* =========================
-   BOTÕES MEDICAÇÃO
-   ========================= */
+/* =====================================================
+   BOTÕES DAS MEDICAÇÕES
+   ===================================================== */
 
 function configurarBotoesMedicacao() {
+
 
     document
         .querySelectorAll(
@@ -1008,9 +1013,9 @@ function configurarBotoesMedicacao() {
 }
 
 
-/* =========================
+/* =====================================================
    EDITAR MEDICAÇÃO
-   ========================= */
+   ===================================================== */
 
 function editarMedicacao(index) {
 
@@ -1028,6 +1033,16 @@ function editarMedicacao(index) {
         "peso"
     ).value =
         medicacao.peso;
+
+
+    /* COLOCAR O LEITO NA CALCULADORA */
+
+    if (leitoSelecionado) {
+
+        leitoSelecionado.value =
+            leitoAtual;
+
+    }
 
 
     volumeMedicamento.value =
@@ -1058,7 +1073,7 @@ function editarMedicacao(index) {
     );
 
 
-    /* remover antigo */
+    /* REMOVER O ANTIGO */
 
     leitos[
         leitoAtual
@@ -1071,7 +1086,7 @@ function editarMedicacao(index) {
     salvarDados();
 
 
-    /* voltar calculadora */
+    /* VOLTAR PARA CALCULADORA */
 
     tabCalculadora.click();
 
@@ -1084,13 +1099,17 @@ function editarMedicacao(index) {
 }
 
 
-/* =========================
+/* =====================================================
    ADICIONAR AO LEITO
-   ========================= */
+   ===================================================== */
 
 adicionarAoLeito.addEventListener(
     "click",
     function() {
+
+
+        /* PRIMEIRO:
+           verificar se existe cálculo */
 
         if (!ultimoResultado) {
 
@@ -1103,10 +1122,20 @@ adicionarAoLeito.addEventListener(
         }
 
 
-        if (!leitoAtual) {
+        /* PEGAR O LEITO DIGITADO NA CALCULADORA */
+
+        const valorLeito =
+            leitoSelecionado
+                ? leitoSelecionado.value.trim()
+                : "";
+
+
+        /* LEITO NÃO INFORMADO */
+
+        if (valorLeito === "") {
 
             alert(
-                "Selecione um leito na aba Leitos antes de adicionar a medicação."
+                "Informe o número do leito entre 1 e 10."
             );
 
             return;
@@ -1114,10 +1143,69 @@ adicionarAoLeito.addEventListener(
         }
 
 
-        leitos[leitoAtual]
-            .peso =
+        const numeroLeito =
+            Number(valorLeito);
+
+
+        /* VALIDAR LEITO */
+
+        if (
+            !Number.isInteger(numeroLeito) ||
+            numeroLeito < 1 ||
+            numeroLeito > 10
+        ) {
+
+            alert(
+                "Leito inválido. Digite um número de 1 a 10."
+            );
+
+            return;
+
+        }
+
+
+        /* TRANSFORMAR EM STRING */
+
+        leitoAtual =
+            String(numeroLeito);
+
+
+        /* CRIAR LEITO SE NÃO EXISTIR */
+
+        if (!leitos[leitoAtual]) {
+
+            leitos[leitoAtual] = {
+
+                peso: "",
+
+                medicacoes: []
+
+            };
+
+        }
+
+
+        /* SALVAR PESO */
+
+        leitos[leitoAtual].peso =
             ultimoResultado.peso;
 
+
+        /* GARANTIR ARRAY */
+
+        if (
+            !Array.isArray(
+                leitos[leitoAtual].medicacoes
+            )
+        ) {
+
+            leitos[leitoAtual].medicacoes =
+                [];
+
+        }
+
+
+        /* ADICIONAR MEDICAÇÃO */
 
         leitos[leitoAtual]
             .medicacoes
@@ -1126,10 +1214,24 @@ adicionarAoLeito.addEventListener(
             );
 
 
+        /* SALVAR */
+
         salvarDados();
 
 
+        /* ATUALIZAR INDICADORES */
+
         atualizarBotoesLeitos();
+
+
+        /* MANTER O NÚMERO DO LEITO NA TELA */
+
+        if (leitoSelecionado) {
+
+            leitoSelecionado.value =
+                leitoAtual;
+
+        }
 
 
         alert(
@@ -1140,15 +1242,19 @@ adicionarAoLeito.addEventListener(
 );
 
 
-/* =========================
-   SALVAR LEITO
-   ========================= */
+/* =====================================================
+   SALVAR PESO DO LEITO
+   ===================================================== */
 
 salvarLeito.addEventListener(
     "click",
     function() {
 
         if (!leitoAtual) {
+
+            alert(
+                "Selecione um leito."
+            );
 
             return;
 
@@ -1173,15 +1279,19 @@ salvarLeito.addEventListener(
 );
 
 
-/* =========================
+/* =====================================================
    RESET LEITO
-   ========================= */
+   ===================================================== */
 
 resetLeito.addEventListener(
     "click",
     function() {
 
         if (!leitoAtual) {
+
+            alert(
+                "Selecione um leito."
+            );
 
             return;
 
@@ -1215,7 +1325,9 @@ resetLeito.addEventListener(
 
         pesoLeito.value = "";
 
+
         mostrarMedicacoes();
+
 
         atualizarBotoesLeitos();
 
@@ -1228,9 +1340,9 @@ resetLeito.addEventListener(
 );
 
 
-/* =========================
+/* =====================================================
    INDICADOR DOS LEITOS
-   ========================= */
+   ===================================================== */
 
 function atualizarBotoesLeitos() {
 
@@ -1245,9 +1357,14 @@ function atualizarBotoesLeitos() {
                 leitos[numero] &&
                 (
                     leitos[numero].peso ||
-                    leitos[numero]
-                        .medicacoes
-                        .length > 0
+                    (
+                        Array.isArray(
+                            leitos[numero].medicacoes
+                        ) &&
+                        leitos[numero]
+                            .medicacoes
+                            .length > 0
+                    )
                 );
 
 
@@ -1262,9 +1379,9 @@ function atualizarBotoesLeitos() {
 }
 
 
-/* =========================
+/* =====================================================
    INICIALIZAÇÃO
-   ========================= */
+   ===================================================== */
 
 atualizarVolumeFinal();
 
