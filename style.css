@@ -257,6 +257,45 @@ footer {
 .hidden {
     display: none !important;
 }
+
+/* =========================
+   BOTÕES DE LEITO
+========================= */
+.leitos-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+.leito-button {
+    height: 52px;
+    border: 1px solid #cbd5db;
+    border-radius: 11px;
+    background: #f3f6f8;
+    color: #263238;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.leito-button:active {
+    transform: scale(0.96);
+}
+.leito-button.active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: white;
+    box-shadow: 0 4px 10px rgba(15,118,110,0.25);
+}
+
+/* =========================
+   RESETAR TODOS OS LEITOS
+========================= */
+.reset-all-button {
+    margin-top: 26px;
+    background: #b71c1c;
+    box-shadow: 0 4px 10px rgba(183,28,28,0.25);
+}
+
 @media (min-width: 700px) {
     main {
         padding-top: 25px;
@@ -265,6 +304,8 @@ footer {
         padding-left: calc((100% - 560px) / 2);
         padding-right: calc((100% - 560px) / 2);
     }
+}
+
 /* VOLUME FINAL - DESTAQUE */
 
 #volumeFinal {
