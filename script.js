@@ -1321,3 +1321,88 @@ function atualizarBotoesLeitos() {
    ===================================================== */
 
 atualizarBotoesLeitos();
+
+/* =====================================================
+   SINAIS VITAIS
+   ===================================================== */
+
+const fcInput =
+    elemento("fc");
+
+const frInput =
+    elemento("fr");
+
+const pasInput =
+    elemento("pas");
+
+const padInput =
+    elemento("pad");
+
+const pamInput =
+    elemento("pam");
+
+const sato2Input =
+    elemento("sato2");
+
+
+/* =====================================================
+   CALCULAR PAM AUTOMATICAMENTE
+   ===================================================== */
+
+function atualizarPAM() {
+
+    if (!pasInput || !padInput || !pamInput) {
+        return;
+    }
+
+    const pas =
+        obterNumero(pasInput.value);
+
+    const pad =
+        obterNumero(padInput.value);
+
+
+    if (
+        Number.isFinite(pas) &&
+        Number.isFinite(pad) &&
+        pas > 0 &&
+        pad >= 0
+    ) {
+
+        const pam =
+            (pas + (2 * pad)) / 3;
+
+        pamInput.value =
+            pam.toFixed(0);
+
+    } else {
+
+        pamInput.value = "";
+
+    }
+
+}
+
+
+/* =====================================================
+   ATUALIZAR PAM ENQUANTO DIGITA
+   ===================================================== */
+
+if (pasInput) {
+
+    pasInput.addEventListener(
+        "input",
+        atualizarPAM
+    );
+
+}
+
+
+if (padInput) {
+
+    padInput.addEventListener(
+        "input",
+        atualizarPAM
+    );
+
+}
