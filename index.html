@@ -733,7 +733,203 @@
 
 </section>
 
+<!-- =========================
+     PÁGINA SINAIS VITAIS
+========================= -->
 
+<section
+    id="paginaSinaisVitais"
+    class="sinais-page hidden"
+>
+
+    <section class="card">
+
+        <h2>
+            ❤️ Sinais Vitais
+        </h2>
+
+        <!-- FREQUÊNCIA CARDÍACA -->
+
+        <div class="field">
+
+            <label for="fc">
+                Frequência cardíaca (FC)
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="fc"
+                    placeholder="Ex.: 120"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                >
+
+                <span>
+                    bpm
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- FREQUÊNCIA RESPIRATÓRIA -->
+
+        <div class="field">
+
+            <label for="fr">
+                Frequência respiratória (FR)
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="fr"
+                    placeholder="Ex.: 30"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                >
+
+                <span>
+                    irpm
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRESSÃO ARTERIAL SISTÓLICA -->
+
+        <div class="field">
+
+            <label for="pas">
+                Pressão arterial sistólica (PAS)
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="pas"
+                    placeholder="Ex.: 100"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                >
+
+                <span>
+                    mmHg
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRESSÃO ARTERIAL DIASTÓLICA -->
+
+        <div class="field">
+
+            <label for="pad">
+                Pressão arterial diastólica (PAD)
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="pad"
+                    placeholder="Ex.: 60"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                >
+
+                <span>
+                    mmHg
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAM -->
+
+        <div class="field">
+
+            <label for="pam">
+                Pressão arterial média (PAM)
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="pam"
+                    placeholder="Ex.: 73"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                >
+
+                <span>
+                    mmHg
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SATURAÇÃO -->
+
+        <div class="field">
+
+            <label for="sato2">
+                Saturação de oxigênio (SatO₂)
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    type="number"
+                    id="sato2"
+                    placeholder="Ex.: 98"
+                    min="0"
+                    max="100"
+                    step="1"
+                    inputmode="numeric"
+                >
+
+                <span>
+                    %
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTÃO SALVAR -->
+
+        <button
+            id="salvarSinaisVitais"
+            class="calculate-button"
+            type="button"
+        >
+            💾 SALVAR SINAIS VITAIS
+        </button>
+
+    </section>
+
+</section>
 
 <!-- =========================
      RODAPÉ
