@@ -963,7 +963,53 @@ function mostrarMedicacoes() {
 
             }
         );
+/* =====================================================
+   MOSTRAR SINAIS VITAIS DO LEITO
+   ===================================================== */
 
+const sinais =
+    leitos[leitoAtual].sinaisVitais;
+
+
+/* Só mostra se houver sinais salvos */
+
+if (sinais) {
+
+    const sinaisDiv =
+        document.createElement("div");
+
+    sinaisDiv.className =
+        "vital-signs-card";
+
+    sinaisDiv.innerHTML = `
+
+        <h3>
+            ❤️ Sinais vitais
+        </h3>
+
+        <div class="vital-signs-info">
+
+            FC: ${sinais.fc || "-"} bpm<br>
+
+            FR: ${sinais.fr || "-"} irpm<br>
+
+            PAS: ${sinais.pas || "-"} mmHg<br>
+
+            PAD: ${sinais.pad || "-"} mmHg<br>
+
+            PAM: ${sinais.pam || "-"} mmHg<br>
+
+            SatO₂: ${sinais.sato2 || "-"} %
+
+        </div>
+
+    `;
+
+    listaMedicacoes.appendChild(
+        sinaisDiv
+    );
+
+}
 
     configurarBotoesMedicacao();
 
