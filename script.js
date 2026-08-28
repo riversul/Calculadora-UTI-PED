@@ -748,6 +748,9 @@ const salvarLeito =
 const resetLeito =
     elemento("resetLeito");
 
+const resetarTodosLeitos =
+    elemento("resetarTodosLeitos");
+
 
 /* =====================================================
    SALVAR NO NAVEGADOR
@@ -1360,6 +1363,63 @@ if (resetLeito) {
 
             alert(
                 `Leito ${leitoAtual} resetado.`
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RESETAR TODOS OS LEITOS
+   ===================================================== */
+
+if (resetarTodosLeitos) {
+
+    resetarTodosLeitos.addEventListener(
+        "click",
+        function() {
+
+            const confirmar =
+                confirm(
+                    "Resetar todos os dados de todos os leitos? Esta ação não pode ser desfeita."
+                );
+
+
+            if (!confirmar) {
+                return;
+            }
+
+
+            leitos = {};
+
+            leitoAtual = null;
+
+
+            salvarDados();
+
+
+            if (painelLeito) {
+                painelLeito.classList.add("hidden");
+            }
+
+            if (pesoLeito) {
+                pesoLeito.value = "";
+            }
+
+            botoesLeito.forEach(
+                function(botao) {
+                    botao.classList.remove("active");
+                }
+            );
+
+
+            atualizarBotoesLeitos();
+
+
+            alert(
+                "Todos os leitos foram resetados."
             );
 
         }
