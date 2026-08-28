@@ -85,56 +85,60 @@ const medicamentos = {
 
 
 /* =====================================================
-   ELEMENTOS
+   FUNÇÃO PARA PEGAR ELEMENTOS
    ===================================================== */
 
-const medicamentoSelect =
-    document.getElementById("medicamento");
+function elemento(id) {
+    return document.getElementById(id);
+}
 
-const concentracaoBox =
-    document.getElementById("concentracaoBox");
 
-const concentracao =
-    document.getElementById("concentracao");
+/* =====================================================
+   ELEMENTOS DA CALCULADORA
+   ===================================================== */
+
+const medicamentoSelect = elemento("medicamento");
+const concentracaoBox = elemento("concentracaoBox");
+const concentracao = elemento("concentracao");
 
 const volumeMedicamento =
-    document.getElementById("volumeMedicamento");
+    elemento("volumeMedicamento");
 
 const volumeDiluente =
-    document.getElementById("volumeDiluente");
+    elemento("volumeDiluente");
 
 const calcular =
-    document.getElementById("calcular");
+    elemento("calcular");
 
 const resultado =
-    document.getElementById("resultado");
+    elemento("resultado");
 
 const erro =
-    document.getElementById("erro");
+    elemento("erro");
 
 const mensagemErro =
-    document.getElementById("mensagemErro");
+    elemento("mensagemErro");
 
 const resultadoMedicamento =
-    document.getElementById("resultadoMedicamento");
+    elemento("resultadoMedicamento");
 
 const dose =
-    document.getElementById("dose");
+    elemento("dose");
 
 const unidadeDose =
-    document.getElementById("unidadeDose");
+    elemento("unidadeDose");
 
 const concentracaoFinal =
-    document.getElementById("concentracaoFinal");
+    elemento("concentracaoFinal");
 
 const resultadoVazao =
-    document.getElementById("resultadoVazao");
+    elemento("resultadoVazao");
 
 const adicionarAoLeito =
-    document.getElementById("adicionarAoLeito");
+    elemento("adicionarAoLeito");
 
 const leitoSelecionado =
-    document.getElementById("leitoSelecionado");
+    elemento("leitoSelecionado");
 
 
 /* =====================================================
@@ -142,63 +146,86 @@ const leitoSelecionado =
    ===================================================== */
 
 const tabCalculadora =
-    document.getElementById("tabCalculadora");
+    elemento("tabCalculadora");
 
 const tabLeitos =
-    document.getElementById("tabLeitos");
+    elemento("tabLeitos");
 
 const paginaCalculadora =
-    document.getElementById("paginaCalculadora");
+    elemento("paginaCalculadora");
 
 const paginaLeitos =
-    document.getElementById("paginaLeitos");
+    elemento("paginaLeitos");
 
 
-tabCalculadora.addEventListener(
-    "click",
-    function() {
+if (tabCalculadora) {
 
-        tabCalculadora.classList.add("active");
+    tabCalculadora.addEventListener(
+        "click",
+        function() {
 
-        tabLeitos.classList.remove("active");
+            tabCalculadora.classList.add("active");
 
-        paginaCalculadora.classList.remove("hidden");
+            if (tabLeitos) {
+                tabLeitos.classList.remove("active");
+            }
 
-        paginaLeitos.classList.add("hidden");
+            if (paginaCalculadora) {
+                paginaCalculadora.classList.remove("hidden");
+            }
 
-    }
-);
+            if (paginaLeitos) {
+                paginaLeitos.classList.add("hidden");
+            }
+
+        }
+    );
+
+}
 
 
-tabLeitos.addEventListener(
-    "click",
-    function() {
+if (tabLeitos) {
 
-        tabLeitos.classList.add("active");
+    tabLeitos.addEventListener(
+        "click",
+        function() {
 
-        tabCalculadora.classList.remove("active");
+            tabLeitos.classList.add("active");
 
-        paginaLeitos.classList.remove("hidden");
+            if (tabCalculadora) {
+                tabCalculadora.classList.remove("active");
+            }
 
-        paginaCalculadora.classList.add("hidden");
+            if (paginaLeitos) {
+                paginaLeitos.classList.remove("hidden");
+            }
 
-        atualizarBotoesLeitos();
+            if (paginaCalculadora) {
+                paginaCalculadora.classList.add("hidden");
+            }
 
-    }
-);
+            atualizarBotoesLeitos();
+
+        }
+    );
+
+}
 
 
 /* =====================================================
-   CONVERSÃO DE NÚMEROS
+   CONVERSÃO
    ===================================================== */
 
 function obterNumero(valor) {
 
     if (
         valor === null ||
+        valor === undefined ||
         valor === ""
     ) {
+
         return NaN;
+
     }
 
     return Number(
@@ -235,47 +262,65 @@ function formatarNumero(valor) {
 
 function mostrarErro(texto) {
 
-    mensagemErro.textContent = texto;
+    if (mensagemErro) {
+        mensagemErro.textContent = texto;
+    }
 
-    erro.classList.remove("hidden");
+    if (erro) {
+        erro.classList.remove("hidden");
+    }
 
-    resultado.classList.add("hidden");
+    if (resultado) {
+        resultado.classList.add("hidden");
+    }
 
 }
 
 
 /* =====================================================
-   MEDICAMENTO SELECIONADO
+   MEDICAMENTO
    ===================================================== */
 
-medicamentoSelect.addEventListener(
-    "change",
-    function() {
+if (medicamentoSelect) {
 
-        const medicamento =
-            medicamentos[this.value];
+    medicamentoSelect.addEventListener(
+        "change",
+        function() {
 
-        resultado.classList.add("hidden");
+            const medicamento =
+                medicamentos[this.value];
 
-        erro.classList.add("hidden");
+            if (resultado) {
+                resultado.classList.add("hidden");
+            }
 
+            if (erro) {
+                erro.classList.add("hidden");
+            }
 
-        if (!medicamento) {
+            if (!medicamento) {
 
-            concentracaoBox.classList.add("hidden");
+                if (concentracaoBox) {
+                    concentracaoBox.classList.add("hidden");
+                }
 
-            return;
+                return;
+
+            }
+
+            if (concentracao) {
+                concentracao.textContent =
+                    medicamento.apresentacao;
+            }
+
+            if (concentracaoBox) {
+                concentracaoBox.classList.remove("hidden");
+            }
 
         }
+    );
 
-
-        concentracao.textContent =
-            medicamento.apresentacao;
-
-        concentracaoBox.classList.remove("hidden");
-
-    }
-);
+}
 
 
 /* =====================================================
@@ -289,336 +334,382 @@ let ultimoResultado = null;
    CALCULAR DOSE
    ===================================================== */
 
-calcular.addEventListener(
-    "click",
-    function() {
+if (calcular) {
 
-        erro.classList.add("hidden");
+    calcular.addEventListener(
+        "click",
+        function() {
 
-        resultado.classList.add("hidden");
+            if (erro) {
+                erro.classList.add("hidden");
+            }
 
-
-        const medicamentoSelecionado =
-            medicamentoSelect.value;
-
-
-        const peso =
-            obterNumero(
-                document.getElementById("peso").value
-            );
+            if (resultado) {
+                resultado.classList.add("hidden");
+            }
 
 
-        const volumeDroga =
-            obterNumero(
-                volumeMedicamento.value
-            );
+            const medicamentoSelecionado =
+                medicamentoSelect.value;
 
 
-        const volumeDiluenteValue =
-            obterNumero(
-                volumeDiluente.value
-            );
+            const peso =
+                obterNumero(
+                    elemento("peso").value
+                );
 
 
-        const vazao =
-            obterNumero(
-                document.getElementById("vazao").value
-            );
+            const volumeDroga =
+                obterNumero(
+                    volumeMedicamento.value
+                );
 
 
-        /* =================================================
-           VALIDAÇÕES
-        ================================================= */
+            const volumeDiluenteValue =
+                obterNumero(
+                    volumeDiluente.value
+                );
 
-        if (!medicamentoSelecionado) {
 
-            mostrarErro(
-                "Selecione o medicamento."
-            );
+            const vazao =
+                obterNumero(
+                    elemento("vazao").value
+                );
 
-            return;
+
+            /* =============================
+               VALIDAÇÕES
+            ============================= */
+
+            if (!medicamentoSelecionado) {
+
+                mostrarErro(
+                    "Selecione o medicamento."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(peso) ||
+                peso <= 0
+            ) {
+
+                mostrarErro(
+                    "Informe um peso válido."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(volumeDroga) ||
+                volumeDroga <= 0
+            ) {
+
+                mostrarErro(
+                    "Informe o volume do medicamento."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(volumeDiluenteValue) ||
+                volumeDiluenteValue < 0
+            ) {
+
+                mostrarErro(
+                    "Informe o volume do diluente."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(vazao) ||
+                vazao <= 0
+            ) {
+
+                mostrarErro(
+                    "Informe uma vazão válida."
+                );
+
+                return;
+
+            }
+
+
+            const medicamento =
+                medicamentos[
+                    medicamentoSelecionado
+                ];
+
+
+            /* =============================
+               VOLUME FINAL
+            ============================= */
+
+            const volumeTotal =
+                volumeDroga +
+                volumeDiluenteValue;
+
+
+            if (volumeTotal <= 0) {
+
+                mostrarErro(
+                    "O volume final deve ser maior que zero."
+                );
+
+                return;
+
+            }
+
+
+            /* =============================
+               QUANTIDADE TOTAL
+            ============================= */
+
+            const quantidadeTotalMcg =
+                medicamento.concentracaoMcgMl *
+                volumeDroga;
+
+
+            /* =============================
+               CONCENTRAÇÃO FINAL
+            ============================= */
+
+            const concentracaoMcgMl =
+                quantidadeTotalMcg /
+                volumeTotal;
+
+
+            /* =============================
+               QUANTIDADE POR HORA
+            ============================= */
+
+            const quantidadePorHoraMcg =
+                concentracaoMcgMl *
+                vazao;
+
+
+            let doseCalculada;
+
+
+            /* =============================
+               µg/kg/min
+            ============================= */
+
+            if (
+                medicamento.tipoDose ===
+                "mcgkgmin"
+            ) {
+
+                doseCalculada =
+                    quantidadePorHoraMcg /
+                    peso /
+                    60;
+
+            }
+
+
+            /* =============================
+               µg/kg/h
+            ============================= */
+
+            else if (
+                medicamento.tipoDose ===
+                "mcgkgh"
+            ) {
+
+                doseCalculada =
+                    quantidadePorHoraMcg /
+                    peso;
+
+            }
+
+
+            /* =============================
+               mg/kg/h
+            ============================= */
+
+            else if (
+                medicamento.tipoDose ===
+                "mgkgh"
+            ) {
+
+                const quantidadePorHoraMg =
+                    quantidadePorHoraMcg /
+                    1000;
+
+                doseCalculada =
+                    quantidadePorHoraMg /
+                    peso;
+
+            }
+
+
+            /* =============================
+               GUARDAR RESULTADO
+            ============================= */
+
+            ultimoResultado = {
+
+                medicamentoKey:
+                    medicamentoSelecionado,
+
+                nome:
+                    medicamento.nome,
+
+                apresentacao:
+                    medicamento.apresentacao,
+
+                dose:
+                    doseCalculada,
+
+                unidadeDose:
+                    medicamento.unidadeDose,
+
+                vazao:
+                    vazao,
+
+                volumeMedicamento:
+                    volumeDroga,
+
+                volumeDiluente:
+                    volumeDiluenteValue,
+
+                volumeFinal:
+                    volumeTotal,
+
+                peso:
+                    peso
+
+            };
+
+
+            /* =============================
+               MOSTRAR RESULTADO
+            ============================= */
+
+            if (resultadoMedicamento) {
+
+                resultadoMedicamento.textContent =
+                    medicamento.nome;
+
+            }
+
+
+            if (dose) {
+
+                dose.textContent =
+                    formatarNumero(
+                        doseCalculada
+                    );
+
+            }
+
+
+            if (unidadeDose) {
+
+                unidadeDose.textContent =
+                    medicamento.unidadeDose;
+
+            }
+
+
+            if (concentracaoFinal) {
+
+                concentracaoFinal.textContent =
+                    `${formatarNumero(volumeTotal)} mL`;
+
+            }
+
+
+            if (resultadoVazao) {
+
+                resultadoVazao.textContent =
+                    `${formatarNumero(vazao)} mL/h`;
+
+            }
+
+
+            if (resultado) {
+
+                resultado.classList.remove("hidden");
+
+                resultado.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
 
         }
+    );
 
-
-        if (
-            !Number.isFinite(peso) ||
-            peso <= 0
-        ) {
-
-            mostrarErro(
-                "Informe um peso válido."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(volumeDroga) ||
-            volumeDroga <= 0
-        ) {
-
-            mostrarErro(
-                "Informe o volume do medicamento."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(volumeDiluenteValue) ||
-            volumeDiluenteValue < 0
-        ) {
-
-            mostrarErro(
-                "Informe o volume do diluente."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(vazao) ||
-            vazao <= 0
-        ) {
-
-            mostrarErro(
-                "Informe uma vazão válida."
-            );
-
-            return;
-
-        }
-
-
-        const medicamento =
-            medicamentos[medicamentoSelecionado];
-
-
-        /* =================================================
-           VOLUME FINAL
-           
-           O campo não aparece mais na tela,
-           mas continua sendo calculado.
-        ================================================= */
-
-        const volumeTotal =
-            volumeDroga +
-            volumeDiluenteValue;
-
-
-        if (volumeTotal <= 0) {
-
-            mostrarErro(
-                "O volume final deve ser maior que zero."
-            );
-
-            return;
-
-        }
-
-
-        /* =================================================
-           QUANTIDADE TOTAL
-        ================================================= */
-
-        const quantidadeTotalMcg =
-            medicamento.concentracaoMcgMl *
-            volumeDroga;
-
-
-        /* =================================================
-           CONCENTRAÇÃO FINAL
-        ================================================= */
-
-        const concentracaoMcgMl =
-            quantidadeTotalMcg /
-            volumeTotal;
-
-
-        /* =================================================
-           QUANTIDADE POR HORA
-        ================================================= */
-
-        const quantidadePorHoraMcg =
-            concentracaoMcgMl *
-            vazao;
-
-
-        let doseCalculada;
-
-
-        /* =================================================
-           µg/kg/min
-        ================================================= */
-
-        if (
-            medicamento.tipoDose === "mcgkgmin"
-        ) {
-
-            doseCalculada =
-                quantidadePorHoraMcg /
-                peso /
-                60;
-
-        }
-
-
-        /* =================================================
-           µg/kg/h
-        ================================================= */
-
-        else if (
-            medicamento.tipoDose === "mcgkgh"
-        ) {
-
-            doseCalculada =
-                quantidadePorHoraMcg /
-                peso;
-
-        }
-
-
-        /* =================================================
-           mg/kg/h
-        ================================================= */
-
-        else if (
-            medicamento.tipoDose === "mgkgh"
-        ) {
-
-            const quantidadePorHoraMg =
-                quantidadePorHoraMcg /
-                1000;
-
-            doseCalculada =
-                quantidadePorHoraMg /
-                peso;
-
-        }
-
-
-        /* =================================================
-           GUARDAR RESULTADO
-        ================================================= */
-
-        ultimoResultado = {
-
-            medicamentoKey:
-                medicamentoSelecionado,
-
-            nome:
-                medicamento.nome,
-
-            apresentacao:
-                medicamento.apresentacao,
-
-            dose:
-                doseCalculada,
-
-            unidadeDose:
-                medicamento.unidadeDose,
-
-            vazao:
-                vazao,
-
-            volumeMedicamento:
-                volumeDroga,
-
-            volumeDiluente:
-                volumeDiluenteValue,
-
-            volumeFinal:
-                volumeTotal,
-
-            peso:
-                peso
-
-        };
-
-
-        /* =================================================
-           MOSTRAR RESULTADO
-        ================================================= */
-
-        resultadoMedicamento.textContent =
-            medicamento.nome;
-
-
-        dose.textContent =
-            formatarNumero(
-                doseCalculada
-            );
-
-
-        unidadeDose.textContent =
-            medicamento.unidadeDose;
-
-
-        concentracaoFinal.textContent =
-            `${formatarNumero(volumeTotal)} mL`;
-
-
-        resultadoVazao.textContent =
-            `${formatarNumero(vazao)} mL/h`;
-
-
-        resultado.classList.remove("hidden");
-
-
-        resultado.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
-    }
-);
+}
 
 
 /* =====================================================
    SISTEMA DE LEITOS
    ===================================================== */
 
-let leitos = JSON.parse(
-    localStorage.getItem(
-        "calculadoraUTIPED_leitos"
-    )
-) || {};
+let leitos = {};
 
+try {
 
-const painelLeito =
-    document.getElementById("painelLeito");
+    leitos =
+        JSON.parse(
+            localStorage.getItem(
+                "calculadoraUTIPED_leitos"
+            )
+        ) || {};
 
-const leitoAtualElemento =
-    document.getElementById("leitoAtual");
+} catch (e) {
 
-const pesoLeito =
-    document.getElementById("pesoLeito");
+    leitos = {};
 
-const listaMedicacoes =
-    document.getElementById("listaMedicacoes");
-
-const botoesLeito =
-    document.querySelectorAll(".leito-button");
-
-const salvarLeito =
-    document.getElementById("salvarLeito");
-
-const resetLeito =
-    document.getElementById("resetLeito");
+}
 
 
 let leitoAtual = null;
 
 
+const painelLeito =
+    elemento("painelLeito");
+
+const leitoAtualElemento =
+    elemento("leitoAtual");
+
+const pesoLeito =
+    elemento("pesoLeito");
+
+const listaMedicacoes =
+    elemento("listaMedicacoes");
+
+const botoesLeito =
+    document.querySelectorAll(
+        ".leito-button"
+    );
+
+const salvarLeito =
+    elemento("salvarLeito");
+
+const resetLeito =
+    elemento("resetLeito");
+
+
 /* =====================================================
-   SALVAR DADOS
+   SALVAR NO NAVEGADOR
    ===================================================== */
 
 function salvarDados() {
@@ -655,7 +746,8 @@ botoesLeito.forEach(
 
 function selecionarLeito(numero) {
 
-    leitoAtual = String(numero);
+    leitoAtual =
+        String(numero);
 
 
     if (!leitos[leitoAtual]) {
@@ -673,17 +765,27 @@ function selecionarLeito(numero) {
     }
 
 
-    leitoAtualElemento.textContent =
-        leitoAtual;
+    if (leitoAtualElemento) {
+
+        leitoAtualElemento.textContent =
+            leitoAtual;
+
+    }
 
 
-    pesoLeito.value =
-        leitos[leitoAtual].peso || "";
+    if (pesoLeito) {
+
+        pesoLeito.value =
+            leitos[leitoAtual].peso || "";
+
+    }
 
 
-    painelLeito.classList.remove(
-        "hidden"
-    );
+    if (painelLeito) {
+
+        painelLeito.classList.remove("hidden");
+
+    }
 
 
     botoesLeito.forEach(
@@ -708,6 +810,11 @@ function selecionarLeito(numero) {
    ===================================================== */
 
 function mostrarMedicacoes() {
+
+    if (!listaMedicacoes) {
+        return;
+    }
+
 
     listaMedicacoes.innerHTML = "";
 
@@ -739,7 +846,6 @@ function mostrarMedicacoes() {
 
                 const item =
                     document.createElement("div");
-
 
                 item.className =
                     "medication-card";
@@ -773,6 +879,7 @@ function mostrarMedicacoes() {
                             medicacao.volumeMedicamento
                         )}
                         mL +
+
                         ${formatarNumero(
                             medicacao.volumeDiluente
                         )}
@@ -788,7 +895,6 @@ function mostrarMedicacoes() {
 
                     </div>
 
-
                     <div class="medication-actions">
 
                         <button
@@ -798,7 +904,6 @@ function mostrarMedicacoes() {
                         >
                             EDITAR
                         </button>
-
 
                         <button
                             type="button"
@@ -832,7 +937,9 @@ function configurarBotoesMedicacao() {
 
 
     document
-        .querySelectorAll(".delete-medication")
+        .querySelectorAll(
+            ".delete-medication"
+        )
         .forEach(
             function(botao) {
 
@@ -876,7 +983,9 @@ function configurarBotoesMedicacao() {
 
 
     document
-        .querySelectorAll(".edit-medication")
+        .querySelectorAll(
+            ".edit-medication"
+        )
         .forEach(
             function(botao) {
 
@@ -888,7 +997,6 @@ function configurarBotoesMedicacao() {
                             Number(
                                 this.dataset.index
                             );
-
 
                         editarMedicacao(index);
 
@@ -907,6 +1015,14 @@ function configurarBotoesMedicacao() {
 
 function editarMedicacao(index) {
 
+    if (
+        !leitoAtual ||
+        !leitos[leitoAtual]
+    ) {
+        return;
+    }
+
+
     const medicacao =
         leitos[
             leitoAtual
@@ -922,7 +1038,7 @@ function editarMedicacao(index) {
         medicacao.medicamentoKey;
 
 
-    document.getElementById("peso").value =
+    elemento("peso").value =
         medicacao.peso;
 
 
@@ -934,7 +1050,7 @@ function editarMedicacao(index) {
         medicacao.volumeDiluente;
 
 
-    document.getElementById("vazao").value =
+    elemento("vazao").value =
         medicacao.vazao;
 
 
@@ -942,13 +1058,6 @@ function editarMedicacao(index) {
         new Event("change")
     );
 
-
-    /*
-       Remover a versão antiga.
-       Ao clicar em CALCULAR e depois
-       ADICIONAR AO LEITO, será criada
-       a nova versão.
-    */
 
     leitos[
         leitoAtual
@@ -961,7 +1070,9 @@ function editarMedicacao(index) {
     salvarDados();
 
 
-    tabCalculadora.click();
+    if (tabCalculadora) {
+        tabCalculadora.click();
+    }
 
 
     window.scrollTo({
@@ -976,60 +1087,163 @@ function editarMedicacao(index) {
    ADICIONAR AO LEITO
    ===================================================== */
 
-adicionarAoLeito.addEventListener(
-    "click",
-    function() {
+if (adicionarAoLeito) {
 
-        if (!ultimoResultado) {
+    adicionarAoLeito.addEventListener(
+        "click",
+        function() {
+
+            if (!ultimoResultado) {
+
+                alert(
+                    "Calcule uma dose antes de adicionar ao leito."
+                );
+
+                return;
+
+            }
+
+
+            if (!leitoSelecionado) {
+
+                alert(
+                    "Campo de leito não encontrado."
+                );
+
+                return;
+
+            }
+
+
+            const numeroLeito =
+                obterNumero(
+                    leitoSelecionado.value
+                );
+
+
+            if (
+                !Number.isInteger(numeroLeito) ||
+                numeroLeito < 1 ||
+                numeroLeito > 10
+            ) {
+
+                alert(
+                    "Informe um número de leito entre 1 e 10."
+                );
+
+                leitoSelecionado.focus();
+
+                return;
+
+            }
+
+
+            const numero =
+                String(numeroLeito);
+
+
+            if (!leitos[numero]) {
+
+                leitos[numero] = {
+
+                    peso: "",
+
+                    medicacoes: []
+
+                };
+
+            }
+
+
+            leitos[numero].peso =
+                ultimoResultado.peso;
+
+
+            leitos[numero]
+                .medicacoes
+                .push(
+                    ultimoResultado
+                );
+
+
+            salvarDados();
+
+
+            atualizarBotoesLeitos();
+
 
             alert(
-                "Calcule uma dose antes de adicionar ao leito."
+                `Medicação adicionada ao Leito ${numero}.`
             );
-
-            return;
 
         }
+    );
+
+}
 
 
-        /*
-           Agora o leito vem diretamente
-           da caixa da página inicial.
-        */
+/* =====================================================
+   SALVAR LEITO
+   ===================================================== */
 
-        const numeroLeito =
-            obterNumero(
-                leitoSelecionado.value
-            );
+if (salvarLeito) {
+
+    salvarLeito.addEventListener(
+        "click",
+        function() {
+
+            if (!leitoAtual) {
+                return;
+            }
 
 
-        if (
-            !Number.isInteger(numeroLeito) ||
-            numeroLeito < 1 ||
-            numeroLeito > 10
-        ) {
+            leitos[leitoAtual].peso =
+                pesoLeito.value;
+
+
+            salvarDados();
+
+
+            atualizarBotoesLeitos();
+
 
             alert(
-                "Informe um número de leito entre 1 e 10."
+                `Leito ${leitoAtual} salvo.`
             );
 
-            leitoSelecionado.focus();
-
-            return;
-
         }
+    );
+
+}
 
 
-        const numero =
-            String(numeroLeito);
+/* =====================================================
+   RESETAR LEITO
+   ===================================================== */
+
+if (resetLeito) {
+
+    resetLeito.addEventListener(
+        "click",
+        function() {
+
+            if (!leitoAtual) {
+                return;
+            }
 
 
-        /*
-           Criar leito caso ainda não exista.
-        */
+            const confirmar =
+                confirm(
+                    `Resetar todos os dados do Leito ${leitoAtual}?`
+                );
 
-        if (!leitos[numero]) {
 
-            leitos[numero] = {
+            if (!confirmar) {
+                return;
+            }
+
+
+            leitos[leitoAtual] = {
 
                 peso: "",
 
@@ -1037,128 +1251,28 @@ adicionarAoLeito.addEventListener(
 
             };
 
-        }
+
+            salvarDados();
 
 
-        /*
-           Salvar o peso.
-        */
-
-        leitos[numero].peso =
-            ultimoResultado.peso;
+            if (pesoLeito) {
+                pesoLeito.value = "";
+            }
 
 
-        /*
-           Adicionar medicação.
-        */
+            mostrarMedicacoes();
 
-        leitos[numero]
-            .medicacoes
-            .push(
-                ultimoResultado
+            atualizarBotoesLeitos();
+
+
+            alert(
+                `Leito ${leitoAtual} resetado.`
             );
 
-
-        /*
-           Salvar no navegador.
-        */
-
-        salvarDados();
-
-
-        atualizarBotoesLeitos();
-
-
-        alert(
-            `Medicação adicionada ao Leito ${numero}.`
-        );
-
-    }
-);
-
-
-/* =====================================================
-   SALVAR LEITO
-   ===================================================== */
-
-salvarLeito.addEventListener(
-    "click",
-    function() {
-
-        if (!leitoAtual) {
-            return;
         }
+    );
 
-
-        leitos[leitoAtual].peso =
-            pesoLeito.value;
-
-
-        salvarDados();
-
-
-        alert(
-            `Leito ${leitoAtual} salvo.`
-        );
-
-
-        atualizarBotoesLeitos();
-
-    }
-);
-
-
-/* =====================================================
-   RESETAR LEITO
-   ===================================================== */
-
-resetLeito.addEventListener(
-    "click",
-    function() {
-
-        if (!leitoAtual) {
-            return;
-        }
-
-
-        const confirmar =
-            confirm(
-                `Resetar todos os dados do Leito ${leitoAtual}?`
-            );
-
-
-        if (!confirmar) {
-            return;
-        }
-
-
-        leitos[leitoAtual] = {
-
-            peso: "",
-
-            medicacoes: []
-
-        };
-
-
-        salvarDados();
-
-
-        pesoLeito.value = "";
-
-
-        mostrarMedicacoes();
-
-
-        atualizarBotoesLeitos();
-
-
-        alert(
-            `Leito ${leitoAtual} resetado.`
-        );
-
-    }
-);
+}
 
 
 /* =====================================================
