@@ -76,7 +76,7 @@ const medicamentos = {
     rocuronio: {
         nome: "Rocurônio",
         concentracaoMcgMl: 10,
-        apresentacao: "10 µg/mL",
+        apresentacao: "10 mg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
     }
