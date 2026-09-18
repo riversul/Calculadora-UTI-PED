@@ -1,5 +1,5 @@
 /* =====================================================
-   CALCULADORA UTI PED — V1.3
+   CALCULADORA UTI PED — V1.4
    ===================================================== */
 
 
@@ -75,10 +75,18 @@ const medicamentos = {
 
     rocuronio: {
         nome: "Rocurônio",
-        concentracaoMcgMl: 10,
+        concentracaoMcgMl: 10000,
         apresentacao: "10 mg/mL",
         unidadeDose: "µg/kg/min",
         tipoDose: "mcgkgmin"
+    },
+
+    vasopressina: {
+        nome: "Vasopressina",
+        concentracaoUiMl: 20,
+        apresentacao: "20 UI/mL",
+        unidadeDose: "UI/kg/h",
+        tipoDose: "uikgh"
     }
 
 };
@@ -517,10 +525,19 @@ if (calcular) {
 
             /* =============================
                QUANTIDADE TOTAL
+               (µg para a maioria; UI para vasopressina)
             ============================= */
 
+            const isUnidadesInternacionais =
+                medicamento.tipoDose === "uikgh";
+
+            const concentracaoBase =
+                isUnidadesInternacionais
+                    ? medicamento.concentracaoUiMl
+                    : medicamento.concentracaoMcgMl;
+
             const quantidadeTotalMcg =
-                medicamento.concentracaoMcgMl *
+                concentracaoBase *
                 volumeDroga;
 
 
@@ -535,6 +552,7 @@ if (calcular) {
 
             /* =============================
                QUANTIDADE POR HORA
+               (µg/h para a maioria; UI/h para vasopressina)
             ============================= */
 
             const quantidadePorHoraMcg =
@@ -593,6 +611,22 @@ if (calcular) {
 
                 doseCalculada =
                     quantidadePorHoraMg /
+                    peso;
+
+            }
+
+
+            /* =============================
+               UI/kg/h
+            ============================= */
+
+            else if (
+                medicamento.tipoDose ===
+                "uikgh"
+            ) {
+
+                doseCalculada =
+                    quantidadePorHoraMcg /
                     peso;
 
             }
@@ -1616,4 +1650,3 @@ if (salvarSinaisVitais) {
    ===================================================== */
 
 atualizarBotoesLeitos();
-
