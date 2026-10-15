@@ -10,7 +10,7 @@
 
 const HV_NACL_20_MEQ_ML = 3.4;
 const HV_KCL_191_MEQ_ML = 2.5;
-const HV_GLUC_CA_10_MEQ_ML = 0.46;
+const HV_GLUC_CA_10_MEQ_ML = 0.5;
 const HV_MGSO4_10_MEQ_ML = 0.8;
 const HV_SG50_MG_ML = 500;
 const HV_HS_MAXIMO_ML = 2400;
