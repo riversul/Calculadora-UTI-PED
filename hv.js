@@ -12,7 +12,6 @@ const HV_NACL_20_MEQ_ML = 3.4;
 const HV_KCL_191_MEQ_ML = 2.5;
 const HV_GLUC_CA_10_MEQ_ML = 0.5;
 const HV_MGSO4_10_MEQ_ML = 0.8;
-const HV_SG50_MG_ML = 500;
 const HV_HS_MAXIMO_ML = 2400;
 
 
@@ -173,8 +172,8 @@ if (hvCalcular) {
             const peso = obterNumero(elemento("hvPeso").value);
             const modo = elemento("hvModoVolume").value;
             const vig = obterNumero(elemento("hvVIG").value);
-            const concBase = obterNumero(elemento("hvSoroBase").value);
-            const mgMlBase = concBase * 10;
+            const conc1 = obterNumero(elemento("hvSolucao1").value);
+            const conc2 = obterNumero(elemento("hvSolucao2").value);
             const etapas = obterNumero(elemento("hvEtapas").value);
 
             const naValor = obterNumero(elemento("hvNa").value || "0");
@@ -257,36 +256,56 @@ if (hvCalcular) {
 
 
             /* ---------- Glicose ----------
-               base (x) + SG 50% (y) = volumeRestante
-               mgMlBase·x + 500·y = glicose
+               solução 1 (x) + solução 2 (y) = volumeRestante
+               mg/mL₁·x + mg/mL₂·y = glicose
             */
 
             const glicoseMg = vig * peso * 1440;
 
-            let volBase;
-            let volSG50;
-            let volAD = 0;
+            const mgMl1 = conc1 * 10;
+            const mgMl2 = conc2 * 10;
 
-            volSG50 = (glicoseMg - mgMlBase * volumeRestante) / (HV_SG50_MG_ML - mgMlBase);
+            let vol1;
+            let vol2;
 
-            if (volSG50 < 0) {
-
-                // Glicose menor do que o soro de base puro: completa com água destilada
-                volSG50 = 0;
-                volBase = glicoseMg / mgMlBase;
-                volAD = volumeRestante - volBase;
-
+            if (mgMl1 === mgMl2) {
+                vol1 = volumeRestante;
+                vol2 = 0;
             } else {
-
-                volBase = volumeRestante - volSG50;
-
+                vol2 = (glicoseMg - mgMl1 * volumeRestante) / (mgMl2 - mgMl1);
+                vol1 = volumeRestante - vol2;
             }
 
-            if (volBase < 0) {
+            // Tolera erro de arredondamento
+            if (Math.abs(vol1) < 0.001) vol1 = 0;
+            if (Math.abs(vol2) < 0.001) vol2 = 0;
+
+            if (
+                vol1 < 0 || vol2 < 0 ||
+                Math.abs(mgMl1 * vol1 + mgMl2 * vol2 - glicoseMg) > 1
+            ) {
+
+                const vigMin = Math.min(mgMl1, mgMl2) * volumeRestante / (peso * 1440);
+                const vigMax = Math.max(mgMl1, mgMl2) * volumeRestante / (peso * 1440);
+
+                if (mgMl1 === mgMl2) {
+                    hvMostrarErro(
+                        "Com " + hvNomeSolucao(conc1) + " sozinho, a VIG fica em " +
+                        formatarNumero(arredondar(vigMin, 1)) +
+                        " mg/kg/min. Escolha duas soluções diferentes ou ajuste a VIG."
+                    );
+                    return;
+                }
+
                 hvMostrarErro(
-                    "VIG alta demais para este volume: a glicose necessária excede SG 50% puro. Reduza a VIG ou aumente o volume."
+                    "Essa mistura não atinge a VIG desejada com este volume. " +
+                    "Com as soluções escolhidas, a VIG possível vai de " +
+                    formatarNumero(arredondar(vigMin, 1)) + " a " +
+                    formatarNumero(arredondar(vigMax, 1)) +
+                    " mg/kg/min. Troque as soluções ou ajuste a VIG."
                 );
                 return;
+
             }
 
 
@@ -331,9 +350,8 @@ if (hvCalcular) {
             /* ---------- Tabela ---------- */
 
             const linhas = [
-                ["SG " + concBase + "%", volBase],
-                ["SG 50%", volSG50],
-                ["Água destilada", volAD],
+                [hvNomeSolucao(conc1), vol1],
+                [hvNomeSolucao(conc2), vol2],
                 ["NaCl 20%", volNaCl],
                 ["KCl 19,1%", volKCl],
                 ["Gluconato de Ca 10%", volCa],
@@ -421,5 +439,14 @@ function arredondar(valor, casas) {
 
     const fator = Math.pow(10, casas);
     return Math.round(valor * fator) / fator;
+
+}
+
+
+function hvNomeSolucao(concentracao) {
+
+    return concentracao === 0
+        ? "Água destilada"
+        : "SG " + concentracao + "%";
 
 }
