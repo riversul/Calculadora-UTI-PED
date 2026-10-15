@@ -87,13 +87,26 @@ if (hvModoVolume) {
         "change",
         function() {
 
-            const manual = this.value === "mlkg";
+            const porSC = this.value === "sc";
 
-            elemento("hvCampoPercentual").classList.toggle("hidden", manual);
-            elemento("hvCampoMlKg").classList.toggle("hidden", !manual);
+            elemento("hvCampoPercentual").classList.toggle("hidden", porSC);
+            elemento("hvCampoSC").classList.toggle("hidden", !porSC);
+
+            hvAtualizarKcal();
 
         }
     );
+
+}
+
+
+/* =====================================================
+   SUPERFÍCIE CORPORAL
+   ===================================================== */
+
+function superficieCorporal(peso) {
+
+    return (peso * 4 + 7) / (peso + 90);
 
 }
 
@@ -132,6 +145,11 @@ function hvAtualizarKcal() {
     elemento("hvKcal").textContent =
         Number.isFinite(peso) && peso > 0
             ? formatarNumero(arredondar(hollidaySegar(peso), 0)) + " kcal/dia"
+            : "-";
+
+    elemento("hvSC").textContent =
+        Number.isFinite(peso) && peso > 0
+            ? formatarNumero(arredondar(superficieCorporal(peso), 2)) + " m²"
             : "-";
 
 }
@@ -206,16 +224,16 @@ if (hvCalcular) {
 
             let volumeTotal;
 
-            if (modo === "mlkg") {
+            if (modo === "sc") {
 
-                const mlKg = obterNumero(elemento("hvMlKg").value);
+                const mlM2 = obterNumero(elemento("hvMlM2").value);
 
-                if (!Number.isFinite(mlKg) || mlKg <= 0) {
-                    hvMostrarErro("Informe o volume em mL/kg/dia.");
+                if (!Number.isFinite(mlM2) || mlM2 <= 0) {
+                    hvMostrarErro("Informe o volume em mL/m²/dia.");
                     return;
                 }
 
-                volumeTotal = mlKg * peso;
+                volumeTotal = mlM2 * superficieCorporal(peso);
 
             } else {
 
@@ -323,7 +341,10 @@ if (hvCalcular) {
                 formatarNumero(arredondar(volumeTotal / 24, 1)) + " mL/h";
 
             elemento("hvVolumeTotal").textContent =
-                formatarNumero(arredondar(volumeTotal, 0)) + " mL/dia";
+                formatarNumero(arredondar(volumeTotal, 0)) + " mL/dia" +
+                (modo === "sc"
+                    ? " (SC " + formatarNumero(arredondar(superficieCorporal(peso), 2)) + " m²)"
+                    : "");
 
             elemento("hvConcGlicose").textContent =
                 formatarNumero(arredondar(concGlicose, 1)) + "%";

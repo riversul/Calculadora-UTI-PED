@@ -301,7 +301,7 @@
             <label for="hvModoVolume">Volume hídrico</label>
             <select id="hvModoVolume">
                 <option value="hs">Holliday-Segar</option>
-                <option value="mlkg">mL/kg/dia (manual)</option>
+                <option value="sc">Superfície corporal</option>
             </select>
         </div>
 
@@ -314,12 +314,17 @@
             <small>Ex.: 70–80% em restrição hídrica.</small>
         </div>
 
-        <div class="field hidden" id="hvCampoMlKg">
-            <label for="hvMlKg">Volume por kg</label>
+        <div class="field hidden" id="hvCampoSC">
+            <label for="hvMlM2">Volume por m²</label>
             <div class="input-unit">
-                <input type="number" id="hvMlKg" placeholder="Ex.: 100" step="1" min="1" inputmode="decimal">
-                <span>mL/kg/dia</span>
+                <input type="number" id="hvMlM2" placeholder="Ex.: 400" step="1" min="1" inputmode="decimal">
+                <span>mL/m²/dia</span>
             </div>
+            <div class="concentration-box">
+                <span>Superfície corporal</span>
+                <strong id="hvSC">-</strong>
+            </div>
+            <small>SC = (peso × 4 + 7) / (peso + 90)</small>
         </div>
     </section>
 
@@ -365,18 +370,19 @@
         </div>
 
         <div class="field hv-primeiro-campo">
-            <label for="hvNa">Sódio (NaCl 20%)</label>
+            <label for="hvNa">Sódio (NaCl 20%) — opcional</label>
             <div class="input-unit">
-                <input type="number" id="hvNa" value="3" step="0.1" min="0" inputmode="decimal">
-                <span>mEq/100 kcal</span>
+                <input type="number" id="hvNa" placeholder="Ex.: 3" step="0.1" min="0" inputmode="decimal">
+                <span>mEq/kcal</span>
             </div>
+            <small>Valor a cada 100 kcal do gasto calórico (ex.: 3 = 3 mEq/100 kcal).</small>
         </div>
 
         <div class="field">
-            <label for="hvK">Potássio (KCl 19,1%)</label>
+            <label for="hvK">Potássio (KCl 19,1%) — opcional</label>
             <div class="input-unit">
-                <input type="number" id="hvK" value="2" step="0.1" min="0" inputmode="decimal">
-                <span>mEq/100 kcal</span>
+                <input type="number" id="hvK" placeholder="Ex.: 2" step="0.1" min="0" inputmode="decimal">
+                <span>mEq/kcal</span>
             </div>
         </div>
 
@@ -384,7 +390,7 @@
             <label for="hvCa">Cálcio (gluconato de Ca 10%) — opcional</label>
             <div class="input-unit">
                 <input type="number" id="hvCa" placeholder="Ex.: 1" step="0.1" min="0" inputmode="decimal">
-                <span>mEq/100 kcal</span>
+                <span>mEq/kcal</span>
             </div>
         </div>
 
@@ -392,7 +398,7 @@
             <label for="hvMg">Magnésio (MgSO₄ 10%) — opcional</label>
             <div class="input-unit">
                 <input type="number" id="hvMg" placeholder="Ex.: 0,5" step="0.1" min="0" inputmode="decimal">
-                <span>mEq/100 kcal</span>
+                <span>mEq/kcal</span>
             </div>
         </div>
 
@@ -451,7 +457,9 @@
             1.500 mL + 20 mL/kg acima de 20 kg (máx. 2.400 mL/dia).
             NaCl 20% = 3,4 mEq/mL · KCl 19,1% = 2,5 mEq/mL ·
             Gluconato de cálcio 10% = 0,5 mEq/mL · MgSO₄ 10% = 0,8 mEq/mL ·
-            Eletrólitos em mEq por 100 kcal do gasto calórico de Holliday-Segar (1 mL = 1 kcal), sem o ajuste de %.
+            Eletrólitos em mEq/kcal: o valor é aplicado a cada 100 kcal do gasto calórico de Holliday-Segar
+            (ex.: Na 3 = 3 mEq a cada 100 kcal), sem o ajuste de %.
+            Superfície corporal = (peso × 4 + 7) / (peso + 90).
             SG 5% = 50 mg/mL · SG 10% = 100 mg/mL · SG 50% = 500 mg/mL.
             A AAP (2018) recomenda solução isotônica (Na 130–154 mEq/L) na manutenção pediátrica.
             Confira sempre o cálculo antes de prescrever.
