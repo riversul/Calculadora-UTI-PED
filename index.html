@@ -22,6 +22,7 @@
     <button id="tabCalculadora" class="tab active" type="button">Calculadora</button>
     <button id="tabLeitos" class="tab" type="button"> Leitos</button>
     <button id="tabSinaisVitais" class="tab" type="button"> Sinais Vitais</button>
+    <button id="tabHV" class="tab" type="button"> HV</button>
 </nav>
 
 <!-- =====================================================
@@ -280,12 +281,170 @@
     </section>
 </section>
 
+<!-- =====================================================
+     PÁGINA HIDRATAÇÃO VENOSA (HV)
+===================================================== -->
+<section id="paginaHV" class="hv-page hidden">
+
+    <section class="card">
+        <h2>💧 Hidratação venosa de manutenção</h2>
+
+        <div class="field">
+            <label for="hvPeso">Peso do paciente</label>
+            <div class="input-unit">
+                <input type="number" id="hvPeso" placeholder="Ex.: 10" step="0.1" min="0.1" inputmode="decimal">
+                <span>kg</span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="hvModoVolume">Volume hídrico</label>
+            <select id="hvModoVolume">
+                <option value="hs">Holliday-Segar</option>
+                <option value="mlkg">mL/kg/dia (manual)</option>
+            </select>
+        </div>
+
+        <div class="field" id="hvCampoPercentual">
+            <label for="hvPercentual">% do Holliday-Segar</label>
+            <div class="input-unit">
+                <input type="number" id="hvPercentual" value="100" step="5" min="1" inputmode="decimal">
+                <span>%</span>
+            </div>
+            <small>Ex.: 70–80% em restrição hídrica.</small>
+        </div>
+
+        <div class="field hidden" id="hvCampoMlKg">
+            <label for="hvMlKg">Volume por kg</label>
+            <div class="input-unit">
+                <input type="number" id="hvMlKg" placeholder="Ex.: 100" step="1" min="1" inputmode="decimal">
+                <span>mL/kg/dia</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Glicose</h2>
+
+        <div class="field">
+            <label for="hvVIG">VIG desejada</label>
+            <div class="input-unit">
+                <input type="number" id="hvVIG" value="4" step="0.1" min="0" inputmode="decimal">
+                <span>mg/kg/min</span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="hvSoroBase">Soro glicosado de base</label>
+            <select id="hvSoroBase">
+                <option value="5">SG 5% + SG 50%</option>
+                <option value="10">SG 10% + SG 50%</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Eletrólitos</h2>
+
+        <div class="field">
+            <label for="hvNa">Sódio (NaCl 20%)</label>
+            <div class="input-unit">
+                <input type="number" id="hvNa" value="140" step="1" min="0" inputmode="decimal">
+                <select id="hvNaUnidade" class="unit-select">
+                    <option value="L">mEq/L</option>
+                    <option value="kg">mEq/kg/dia</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="hvK">Potássio (KCl 19,1%)</label>
+            <div class="input-unit">
+                <input type="number" id="hvK" value="20" step="1" min="0" inputmode="decimal">
+                <select id="hvKUnidade" class="unit-select">
+                    <option value="L">mEq/L</option>
+                    <option value="kg">mEq/kg/dia</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="hvCa">Gluconato de cálcio 10% (opcional)</label>
+            <div class="input-unit">
+                <input type="number" id="hvCa" placeholder="Ex.: 2" step="0.1" min="0" inputmode="decimal">
+                <span>mL/kg/dia</span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="hvEtapas">Dividir em etapas</label>
+            <select id="hvEtapas">
+                <option value="1">1 etapa (24 h)</option>
+                <option value="2">2 etapas (12/12 h)</option>
+                <option value="3">3 etapas (8/8 h)</option>
+                <option value="4">4 etapas (6/6 h)</option>
+            </select>
+        </div>
+    </section>
+
+    <button id="hvCalcular" class="calculate-button" type="button">CALCULAR HV</button>
+
+    <section id="hvResultado" class="result-card hidden">
+        <div class="result-header">PRESCRIÇÃO DA HV</div>
+        <div class="result-content">
+            <div class="dose-result">
+                <strong id="hvVazao">-</strong>
+                <span>Vazão da bomba</span>
+            </div>
+
+            <div class="result-details">
+                <div><span>Volume total</span><strong id="hvVolumeTotal">-</strong></div>
+                <div><span>Concentração de glicose</span><strong id="hvConcGlicose">-</strong></div>
+                <div><span>Na final</span><strong id="hvNaFinal">-</strong></div>
+                <div><span>K final</span><strong id="hvKFinal">-</strong></div>
+                <div><span>VIG</span><strong id="hvVIGFinal">-</strong></div>
+                <div><span>Osmolaridade estimada</span><strong id="hvOsm">-</strong></div>
+            </div>
+
+            <h3 class="hv-subtitulo" id="hvTituloTabela">Composição</h3>
+            <table class="hv-tabela">
+                <thead>
+                    <tr><th>Solução</th><th>24 h</th><th id="hvColunaEtapa">Por etapa</th></tr>
+                </thead>
+                <tbody id="hvTabela"></tbody>
+            </table>
+
+            <div id="hvAlertas" class="hv-alertas hidden"></div>
+        </div>
+    </section>
+
+    <section id="hvErro" class="error-card hidden">
+        <strong>Atenção</strong>
+        <p id="hvMensagemErro">Confira os dados informados.</p>
+    </section>
+
+    <section class="warning">
+        <strong>ℹ️ Referências usadas no cálculo</strong>
+        <p>
+            Holliday-Segar: 100 mL/kg até 10 kg; 1.000 mL + 50 mL/kg de 10 a 20 kg;
+            1.500 mL + 20 mL/kg acima de 20 kg (máx. 2.400 mL/dia).
+            NaCl 20% = 3,4 mEq/mL · KCl 19,1% = 2,5 mEq/mL ·
+            Gluconato de cálcio 10% = 0,46 mEq/mL ·
+            SG 5% = 50 mg/mL · SG 10% = 100 mg/mL · SG 50% = 500 mg/mL.
+            A AAP (2018) recomenda solução isotônica (Na 130–154 mEq/L) na manutenção pediátrica.
+            Confira sempre o cálculo antes de prescrever.
+        </p>
+    </section>
+
+</section>
+
 <!-- RODAPÉ -->
 <footer>
-    <p>Calculadora UTI PED — V1.4</p>
+    <p>Calculadora UTI PED — V1.5</p>
 </footer>
 
 <script src="script.js"></script>
+<script src="hv.js"></script>
 
 </body>
 </html>

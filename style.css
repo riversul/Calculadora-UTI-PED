@@ -320,3 +320,76 @@ footer {
     border-color: #0f766e;
     box-shadow: none;
 }
+
+/* =========================
+   HIDRATAÇÃO VENOSA (HV)
+========================= */
+.hv-page {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+}
+.input-unit .unit-select {
+    width: auto;
+    height: 52px;
+    border: none;
+    border-left: 1px solid #cbd5db;
+    border-radius: 0;
+    background: #f3f6f8;
+    color: #607d8b;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 10px;
+    box-shadow: none;
+}
+.hv-subtitulo {
+    margin: 22px 0 10px;
+    font-size: 15px;
+    color: #263238;
+}
+.hv-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.hv-tabela th,
+.hv-tabela td {
+    padding: 9px 6px;
+    border-bottom: 1px solid #e3e9ed;
+    text-align: right;
+}
+.hv-tabela th:first-child,
+.hv-tabela td:first-child {
+    text-align: left;
+}
+.hv-tabela th {
+    color: #607d8b;
+    font-size: 12px;
+    font-weight: 600;
+}
+.hv-tabela tfoot td {
+    font-weight: 700;
+    border-bottom: none;
+}
+.hv-alertas {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    color: #5d4037;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.hv-alertas p {
+    margin: 0 0 6px;
+}
+.hv-alertas p:last-child {
+    margin-bottom: 0;
+}
+@media (min-width: 700px) {
+    .hv-page {
+        padding-top: 25px;
+    }
+}
