@@ -11,6 +11,7 @@
 const HV_NACL_20_MEQ_ML = 3.4;
 const HV_KCL_191_MEQ_ML = 2.5;
 const HV_GLUC_CA_10_MEQ_ML = 0.46;
+const HV_MGSO4_10_MEQ_ML = 0.8;
 const HV_SG50_MG_ML = 500;
 const HV_HS_MAXIMO_ML = 2400;
 
@@ -52,6 +53,8 @@ if (tabHV && paginaHV) {
             ) {
                 elemento("hvPeso").value = pesoCalculadora.value;
             }
+
+            hvAtualizarKcal();
 
         }
     );
@@ -118,17 +121,24 @@ function hollidaySegar(peso) {
 
 
 /* =====================================================
-   ELETRÓLITO -> mEq/dia
+   GASTO CALÓRICO (eletrólitos em mEq/100 kcal)
    ===================================================== */
 
-function hvMeqDia(valor, unidade, peso, volumeTotal) {
+const hvPesoInput = elemento("hvPeso");
 
-    if (unidade === "kg") {
-        return valor * peso;
-    }
+function hvAtualizarKcal() {
 
-    return valor * volumeTotal / 1000;
+    const peso = obterNumero(hvPesoInput.value);
 
+    elemento("hvKcal").textContent =
+        Number.isFinite(peso) && peso > 0
+            ? formatarNumero(arredondar(hollidaySegar(peso), 0)) + " kcal/dia"
+            : "-";
+
+}
+
+if (hvPesoInput) {
+    hvPesoInput.addEventListener("input", hvAtualizarKcal);
 }
 
 
@@ -169,7 +179,8 @@ if (hvCalcular) {
 
             const naValor = obterNumero(elemento("hvNa").value || "0");
             const kValor = obterNumero(elemento("hvK").value || "0");
-            const caMlKg = obterNumero(elemento("hvCa").value || "0");
+            const caValor = obterNumero(elemento("hvCa").value || "0");
+            const mgValor = obterNumero(elemento("hvMg").value || "0");
 
             if (!Number.isFinite(peso) || peso <= 0) {
                 hvMostrarErro("Informe um peso válido.");
@@ -184,7 +195,8 @@ if (hvCalcular) {
             if (
                 !Number.isFinite(naValor) || naValor < 0 ||
                 !Number.isFinite(kValor) || kValor < 0 ||
-                !Number.isFinite(caMlKg) || caMlKg < 0
+                !Number.isFinite(caValor) || caValor < 0 ||
+                !Number.isFinite(mgValor) || mgValor < 0
             ) {
                 hvMostrarErro("Confira os valores de eletrólitos.");
                 return;
@@ -222,18 +234,23 @@ if (hvCalcular) {
 
             /* ---------- Eletrólitos ---------- */
 
-            const naMeq = hvMeqDia(naValor, elemento("hvNaUnidade").value, peso, volumeTotal);
-            const kMeq = hvMeqDia(kValor, elemento("hvKUnidade").value, peso, volumeTotal);
+            const kcal100 = hollidaySegar(peso) / 100;
+
+            const naMeq = naValor * kcal100;
+            const kMeq = kValor * kcal100;
+            const caMeq = caValor * kcal100;
+            const mgMeq = mgValor * kcal100;
 
             const volNaCl = naMeq / HV_NACL_20_MEQ_ML;
             const volKCl = kMeq / HV_KCL_191_MEQ_ML;
-            const volCa = caMlKg * peso;
+            const volCa = caMeq / HV_GLUC_CA_10_MEQ_ML;
+            const volMg = mgMeq / HV_MGSO4_10_MEQ_ML;
 
-            const volumeRestante = volumeTotal - volNaCl - volKCl - volCa;
+            const volumeRestante = volumeTotal - volNaCl - volKCl - volCa - volMg;
 
             if (volumeRestante <= 0) {
                 hvMostrarErro(
-                    "O volume dos eletrólitos ultrapassa o volume total. Reduza Na/K/Ca ou aumente o volume."
+                    "O volume dos eletrólitos ultrapassa o volume total. Reduza Na/K/Ca/Mg ou aumente o volume."
                 );
                 return;
             }
@@ -278,12 +295,10 @@ if (hvCalcular) {
             const concGlicose = glicoseMg / volumeTotal / 10;
             const naL = naMeq / volumeTotal * 1000;
             const kL = kMeq / volumeTotal * 1000;
-            const caMeq = volCa * HV_GLUC_CA_10_MEQ_ML;
-
             const osm =
                 (glicoseMg / 180) / volumeTotal * 1000 +
                 2 * (naL + kL) +
-                caMeq / volumeTotal * 1000 * 1.5;
+                (caMeq + mgMeq) / volumeTotal * 1000 * 1.5;
 
             elemento("hvVazao").textContent =
                 formatarNumero(arredondar(volumeTotal / 24, 1)) + " mL/h";
@@ -302,6 +317,10 @@ if (hvCalcular) {
                 formatarNumero(arredondar(kL, 0)) + " mEq/L · " +
                 formatarNumero(arredondar(kMeq / peso, 1)) + " mEq/kg/dia";
 
+            elemento("hvCaMgFinal").textContent =
+                formatarNumero(arredondar(caMeq, 1)) + " / " +
+                formatarNumero(arredondar(mgMeq, 1)) + " mEq/dia";
+
             elemento("hvVIGFinal").textContent =
                 formatarNumero(vig) + " mg/kg/min";
 
@@ -317,7 +336,8 @@ if (hvCalcular) {
                 ["Água destilada", volAD],
                 ["NaCl 20%", volNaCl],
                 ["KCl 19,1%", volKCl],
-                ["Gluconato de Ca 10%", volCa]
+                ["Gluconato de Ca 10%", volCa],
+                ["MgSO₄ 10%", volMg]
             ];
 
             const tabela = elemento("hvTabela");

@@ -330,19 +330,6 @@ footer {
     margin: 0 auto;
     padding: 16px;
 }
-.input-unit .unit-select {
-    width: auto;
-    height: 52px;
-    border: none;
-    border-left: 1px solid #cbd5db;
-    border-radius: 0;
-    background: #f3f6f8;
-    color: #607d8b;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 0 10px;
-    box-shadow: none;
-}
 .hv-subtitulo {
     margin: 22px 0 10px;
     font-size: 15px;
@@ -392,4 +379,7 @@ footer {
     .hv-page {
         padding-top: 25px;
     }
+}
+.hv-primeiro-campo {
+    margin-top: 18px;
 }

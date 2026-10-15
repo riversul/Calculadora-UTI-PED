@@ -346,33 +346,40 @@
     <section class="card">
         <h2>Eletrólitos</h2>
 
-        <div class="field">
+        <div class="concentration-box" id="hvKcalBox">
+            <span>Gasto calórico (Holliday-Segar)</span>
+            <strong id="hvKcal">-</strong>
+        </div>
+
+        <div class="field hv-primeiro-campo">
             <label for="hvNa">Sódio (NaCl 20%)</label>
             <div class="input-unit">
-                <input type="number" id="hvNa" value="140" step="1" min="0" inputmode="decimal">
-                <select id="hvNaUnidade" class="unit-select">
-                    <option value="L">mEq/L</option>
-                    <option value="kg">mEq/kg/dia</option>
-                </select>
+                <input type="number" id="hvNa" value="3" step="0.1" min="0" inputmode="decimal">
+                <span>mEq/100 kcal</span>
             </div>
         </div>
 
         <div class="field">
             <label for="hvK">Potássio (KCl 19,1%)</label>
             <div class="input-unit">
-                <input type="number" id="hvK" value="20" step="1" min="0" inputmode="decimal">
-                <select id="hvKUnidade" class="unit-select">
-                    <option value="L">mEq/L</option>
-                    <option value="kg">mEq/kg/dia</option>
-                </select>
+                <input type="number" id="hvK" value="2" step="0.1" min="0" inputmode="decimal">
+                <span>mEq/100 kcal</span>
             </div>
         </div>
 
         <div class="field">
-            <label for="hvCa">Gluconato de cálcio 10% (opcional)</label>
+            <label for="hvCa">Cálcio (gluconato de Ca 10%) — opcional</label>
             <div class="input-unit">
-                <input type="number" id="hvCa" placeholder="Ex.: 2" step="0.1" min="0" inputmode="decimal">
-                <span>mL/kg/dia</span>
+                <input type="number" id="hvCa" placeholder="Ex.: 1" step="0.1" min="0" inputmode="decimal">
+                <span>mEq/100 kcal</span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="hvMg">Magnésio (MgSO₄ 10%) — opcional</label>
+            <div class="input-unit">
+                <input type="number" id="hvMg" placeholder="Ex.: 0,5" step="0.1" min="0" inputmode="decimal">
+                <span>mEq/100 kcal</span>
             </div>
         </div>
 
@@ -402,6 +409,7 @@
                 <div><span>Concentração de glicose</span><strong id="hvConcGlicose">-</strong></div>
                 <div><span>Na final</span><strong id="hvNaFinal">-</strong></div>
                 <div><span>K final</span><strong id="hvKFinal">-</strong></div>
+                <div><span>Ca / Mg</span><strong id="hvCaMgFinal">-</strong></div>
                 <div><span>VIG</span><strong id="hvVIGFinal">-</strong></div>
                 <div><span>Osmolaridade estimada</span><strong id="hvOsm">-</strong></div>
             </div>
@@ -429,7 +437,8 @@
             Holliday-Segar: 100 mL/kg até 10 kg; 1.000 mL + 50 mL/kg de 10 a 20 kg;
             1.500 mL + 20 mL/kg acima de 20 kg (máx. 2.400 mL/dia).
             NaCl 20% = 3,4 mEq/mL · KCl 19,1% = 2,5 mEq/mL ·
-            Gluconato de cálcio 10% = 0,46 mEq/mL ·
+            Gluconato de cálcio 10% = 0,46 mEq/mL · MgSO₄ 10% = 0,8 mEq/mL ·
+            Eletrólitos em mEq por 100 kcal do gasto calórico de Holliday-Segar (1 mL = 1 kcal), sem o ajuste de %.
             SG 5% = 50 mg/mL · SG 10% = 100 mg/mL · SG 50% = 500 mg/mL.
             A AAP (2018) recomenda solução isotônica (Na 130–154 mEq/L) na manutenção pediátrica.
             Confira sempre o cálculo antes de prescrever.
